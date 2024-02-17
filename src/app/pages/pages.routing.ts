@@ -8,13 +8,15 @@ import { Graph1Component } from './graph1/graph1.component';
 
 const routes: Routes = [
     { 
-        path: '', 
+        path: 'dashboard', 
         component: PagesComponent, 
         children: [
-            { path: 'dashboard', component: DashboardComponent },
+            //This is the first child component that it will show when the path will be only "/dashboard" (So it will show the DashboardComponent)
+            //If you want show other compoment, then you have to put the name of the component, something like this: { path: '', component: MyPeferedComponent },
+            { path: '', component: DashboardComponent },
+            //These are the child components with specific path
             { path: 'progress', component: ProgressComponent },
             { path: 'graph-1', component: Graph1Component },
-            { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
         ]
     },
 ];
