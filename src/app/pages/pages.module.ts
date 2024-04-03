@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 //This module is important when you use <router-outlet></router-outlet>
 import { AppRoutingModule } from '../app-routing.module';
+import { FormsModule } from '@angular/forms';
 
 //Components
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -28,6 +29,7 @@ import { PagesComponent } from './pages.component';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     SharedModule,
     AppRoutingModule
   ]
