@@ -15,6 +15,9 @@ export class IncreaserComponent {
   //Without external variable name
   @Input() type_button: string = 'btn-primary';
 
+  /**
+   * 
+   */
   changeProgress(number: number){
 
     if(this.progress_value >= 100 && number > 0){
@@ -32,6 +35,20 @@ export class IncreaserComponent {
     this.progress_output.emit(this.progress_value);
     return  this.progress_value;
 
+  }
+
+  /**
+   * 
+   */
+  changeProgresseByWritte(value: number){
+    if(value >= 100){
+      this.progress_value = 100;
+    }else if(value <= 0){
+      this.progress_value = 0;
+    }else{
+      this.progress_value = value;
+    }
+    this.progress_output.emit(this.progress_value);
   }
 
 }
