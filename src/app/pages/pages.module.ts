@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 //Modules
 import { SharedModule } from '../shared/shared.module';
+import { ComponentsModule } from '../components/components.module';
 //This module is important when you use <router-outlet></router-outlet>
 import { AppRoutingModule } from '../app-routing.module';
 import { FormsModule } from '@angular/forms';
@@ -31,7 +32,8 @@ import { PagesComponent } from './pages.component';
     CommonModule,
     FormsModule,
     SharedModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ComponentsModule
   ]
 })
 export class PagesModule { }
