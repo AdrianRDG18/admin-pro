@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-increaser',
@@ -8,11 +8,9 @@ import { Component } from '@angular/core';
 })
 export class IncreaserComponent {
 
-  progress: number = 50;
-
-  get getProgress() {
-    return `${this.progress}%`;
-  }
+  //If you need a diferent name for the external variable definition, you can use the @Input('external_name')
+  // @Input('progress_input') progress: number = 50;
+  @Input() progress: number = 50;
 
   changeProgress(number: number){
 
@@ -23,5 +21,5 @@ export class IncreaserComponent {
     }
     return this.progress = this.progress + number;
   }
-  
+
 }
