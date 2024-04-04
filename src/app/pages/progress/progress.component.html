@@ -3,11 +3,20 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Striped Progress bar</h4>
+                <h5 class="mt-5">First progress</h5>
                 <div class="progress m-t-20">
-                    <div class="progress-bar bg-info progress-bar-striped active" 
+                    <div class="progress-bar bg-primary progress-bar-striped active" 
                          style="height:10px;"
+                         [style.width]="getProgress1"
                          role="progressbar">
-                         <!-- [style.width]="getProgress" -->
+                    </div>
+                </div>
+                <h5 class="mt-5">Second progress</h5>
+                <div class="progress m-t-20">
+                    <div class="progress-bar bg-success progress-bar-striped active" 
+                         style="height:10px;"
+                         [style.width]="getProgress2"
+                         role="progressbar">
                     </div>
                 </div>
             </div>
@@ -19,7 +28,12 @@
     <div class="col-6">
         <div class="card">
             <div class="card-body">
-                <app-increaser [progress]="15"></app-increaser>
+                <!-- (value)="progress1 = $event"   -   is to recive value -->
+                <!-- [value]="progress1"            -   is to emit value -->
+                <app-increaser (value)="progress1 = $event"
+                               [value]="progress1"
+                               [type_button]="'btn-primary'">
+                </app-increaser>
             </div>
         </div>
     </div>
@@ -27,7 +41,10 @@
     <div class="col-6">
         <div class="card">
             <div class="card-body">
-                <app-increaser></app-increaser>
+                <app-increaser (value)="progress2 = $event"
+                               [value]="progress2"
+                               [type_button]="'btn-success'">
+                </app-increaser>
             </div>
         </div>
     </div>
