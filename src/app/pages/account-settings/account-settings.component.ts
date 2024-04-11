@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SettingsService } from 'src/app/services/settings.service';
 
 @Component({
   selector: 'app-account-settings',
@@ -9,35 +10,18 @@ import { Component, OnInit } from '@angular/core';
 export class AccountSettingsComponent implements OnInit{
 
   //Refs DOM
-  public theme = document.querySelector('#theme-id') as HTMLLinkElement;
-  public theme_links = document.getElementsByClassName('selector');
+  public theme_options = document.getElementsByClassName('selector');
+  public theme_options_arr: Array<Element> = [];
 
+  constructor(private _settingsService: SettingsService) {}
 
   ngOnInit(): void {
-    this.checkCurrentTheme();
+    this.theme_options_arr = Array.from(this.theme_options);
+    this._settingsService.replaceIconBySelectedTheme(this.theme_options_arr);
   }
 
-  changeTheme(new_theme: string) {
-    localStorage.setItem('theme', new_theme);
-    this.theme?.setAttribute('href', `./assets/css/colors/${new_theme}.css`)
-    this.checkCurrentTheme();
-  }
-
-  checkCurrentTheme(){
-
-    var links_arr = Array.from(this.theme_links);
-
-    links_arr.map(link_option =>{
-
-      link_option.classList.remove('working');
-
-      const btnTheme = link_option.getAttribute('data-theme')
-      const currentTheme = this.theme.getAttribute('href');
-
-      if(`./assets/css/colors/${btnTheme}.css` === currentTheme){
-        link_option.classList.add('working');
-      }
-    });
+  changeTheme(selected_theme: string) {
+    this._settingsService.changeTheme(selected_theme, this.theme_options_arr);
   }
 
 }
