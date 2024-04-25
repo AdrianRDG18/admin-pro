@@ -13,7 +13,7 @@
                         <li><a href="javascript:void()">My Profile </a></li>
                         <li><a href="javascript:void()">My Balance</a></li>
                         <li><a href="javascript:void()">Inbox</a></li>
-                        <li><a routerLink="account-settings">Account Setting</a></li>
+                        <li><a routerLink="account-settings" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Account Setting</a></li>
                         <li><a routerLink="/login">Logout</a></li>
                     </ul>
                 </li>
@@ -28,7 +28,7 @@
                     </a>
                     <ul aria-expanded="false" class="collapse">
                         <li *ngFor="let option_sub_menu of option_menu.submenu">
-                            <a [routerLink]="option_sub_menu.url">{{option_sub_menu.title}}</a>
+                            <a [routerLink]="option_sub_menu.url" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">{{option_sub_menu.title}}</a>
                         </li>
                     </ul>
                 </li>
