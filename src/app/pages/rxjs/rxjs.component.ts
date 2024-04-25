@@ -10,11 +10,25 @@ import { Observable, retry } from 'rxjs';
 export class RxjsComponent {
 
   constructor() {
+
+    this.myFirstObservable().pipe(
+      retry(1)
+      // retryWhen(1) https://rxjs.dev/api/operators/retryWhen
+    )
+    .subscribe( 
+        valor => console.log('Subs', valor),
+        (error) => console.error("Error: ", error),
+        () => console.info('The oberver finished')
+    );
+
+  }
+
+  myFirstObservable(): Observable<number> {
     
-    const obs$ = new Observable( observer =>{
+    return new Observable<number>( observer =>{
       
       let i = -1;
-
+      
       const interval = setInterval( () => {
 
         i++;
@@ -36,16 +50,7 @@ export class RxjsComponent {
 
     });
 
-    obs$.pipe(
-      retry(1)
-      // retryWhen(1) https://rxjs.dev/api/operators/retryWhen
-    )
-    .subscribe( 
-        valor => console.log('Subs', valor),
-        (error) => console.error("Error: ", error),
-        () => console.info('The oberver finished')
-    );
-
   }
+
 
 }
