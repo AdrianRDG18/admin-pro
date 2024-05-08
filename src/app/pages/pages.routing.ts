@@ -16,13 +16,13 @@ const routes: Routes = [
         children: [
             //This is the first child component that it will show when the path will be only "/dashboard" (So it will show the DashboardComponent)
             //If you want show other compoment, then you have to put the name of the component, something like this: { path: '', component: MyPeferedComponent },
-            { path: '', component: DashboardComponent },
+            { path: '', component: DashboardComponent, data: { title: 'Dashboard'} },
             //These are the child components with specific path
-            { path: 'progress', component: ProgressComponent },
-            { path: 'graph-1', component: Graph1Component },
-            { path: 'account-settings', component: AccountSettingsComponent },
-            { path: 'promises', component: PromisesComponent },
-            { path: 'rxjs', component: RxjsComponent }
+            { path: 'progress', component: ProgressComponent, data: { title: 'Progressbar' } },
+            { path: 'graph-1', component: Graph1Component, data: { title: 'Graficas' } },
+            { path: 'account-settings', component: AccountSettingsComponent, data: { title: 'Ajustes del Tema' } },
+            { path: 'promises', component: PromisesComponent, data: { title: 'Promesas' } },
+            { path: 'rxjs', component: RxjsComponent, data: { title: 'RxJs' } }
         ]
     },
 ];
