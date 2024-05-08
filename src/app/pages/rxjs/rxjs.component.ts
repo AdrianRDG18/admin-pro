@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable, retry, interval, take, map } from 'rxjs';
+import { Observable, retry, interval, take, map, filter } from 'rxjs';
 
 @Component({
   selector: 'app-rxjs',
@@ -57,12 +57,11 @@ export class RxjsComponent {
   }
 
   observableRXJS(): Observable<number> {
-    return interval(1000)
+    return interval(500)
             .pipe( 
-              take(4),
-              map( value => {
-                return value + 1
-              })
+              take(10),
+              map( value => value + 1),
+              filter( value => ( value % 2 === 0 ? true: false ) )
             )
   }
 
