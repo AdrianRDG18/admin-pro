@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { samePasswords } from 'src/app/directives/pw-validator.directive';
+import { AlertService } from 'src/app/services/alert.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -35,7 +36,9 @@ export class RegisterComponent {
     validators: samePasswords
   });
 
-  constructor(private _userService: UserService){}
+  constructor(private _userService: UserService,
+              private _swal: AlertService
+  ){}
 
   createUser(){
 
@@ -45,7 +48,10 @@ export class RegisterComponent {
       this._userService.createUser(this.createUserForm.value)
           .subscribe({
             next: (response) => console.log(response),
-            error: (error) => console.log(error),
+            error: (error) => {
+              console.log(error);
+              this._swal.swalError('Something went wrong', error.error.msg);
+            },
             complete: () => console.log('Request completed')
           });
       console.log('Sending form');
