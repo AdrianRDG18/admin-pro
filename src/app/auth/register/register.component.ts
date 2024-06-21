@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { samePasswords } from 'src/app/directives/pw-validator.directive';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-register',
@@ -34,14 +35,22 @@ export class RegisterComponent {
     validators: samePasswords
   });
 
-  constructor(){}
+  constructor(private _userService: UserService){}
 
   createUser(){
-    console.log(this.createUserForm);
+
     this.formSubmitted = true;
+
     if(this.createUserForm.valid){
+      this._userService.createUser(this.createUserForm.value)
+          .subscribe({
+            next: (response) => console.log(response),
+            error: (error) => console.log(error),
+            complete: () => console.log('Request completed')
+          });
       console.log('Sending form');
     }
+
   }
 
   validationField(field: string): boolean {
