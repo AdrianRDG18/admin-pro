@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { samePasswords } from 'src/app/directives/pw-validator.directive';
 import { AlertService } from 'src/app/services/alert.service';
 import { UserService } from 'src/app/services/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-register',
@@ -45,16 +46,19 @@ export class RegisterComponent {
     this.formSubmitted = true;
 
     if(this.createUserForm.valid){
+
+      this._swal.swalProcessingRequest();
+      Swal.showLoading();
+
       this._userService.createUser(this.createUserForm.value)
           .subscribe({
-            next: (response) => console.log(response),
+            next: (resp) => console.log(resp),
             error: (error) => {
               console.log(error);
               this._swal.swalError('Something went wrong', error.error.msg);
             },
-            complete: () => console.log('Request completed')
+            complete: () => Swal.close()
           });
-      console.log('Sending form');
     }
 
   }

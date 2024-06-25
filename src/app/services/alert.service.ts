@@ -14,6 +14,20 @@ export class AlertService {
       text: msg,
       icon: 'error',
       confirmButtonColor: '#0871EF',
+      allowEscapeKey: false,
+      allowOutsideClick: false,
+      allowEnterKey: false
+
+    });
+  }
+
+  swalProcessingRequest(){
+    return Swal.fire({
+      icon: 'info',
+      text: 'Loading...',
+      allowEscapeKey: false,
+      allowOutsideClick: false,
+      allowEnterKey: false
     });
   }
 }
