@@ -30,4 +30,16 @@ export class AlertService {
       allowEnterKey: false
     });
   }
+
+  swalSuccess(title: string, msg: string){
+    return Swal.fire({
+      title: title,
+      text: msg,
+      icon: 'success',
+      confirmButtonColor: '#0871EF',
+      allowEscapeKey: false,
+      allowOutsideClick: false,
+      allowEnterKey: false
+    });
+  }
 }
