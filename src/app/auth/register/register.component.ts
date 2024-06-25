@@ -57,7 +57,7 @@ export class RegisterComponent {
               console.log(error);
               this._swal.swalError('Something went wrong', error.error.msg);
             },
-            complete: () => Swal.close()
+            complete: () => this._swal.swalSuccess('Success', 'The user has been successfully registered')
           });
     }
 
