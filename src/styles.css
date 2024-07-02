@@ -8,3 +8,7 @@
 #themecolors .selector{
     cursor: pointer;
 }
+
+#buttonDiv iframe{
+    display: inline!important;
+}

@@ -1,16 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertService } from 'src/app/services/alert.service';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
 
+declare const google: any;
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: [ './login.component.css' ]
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent implements OnInit, AfterViewInit{
+
+  @ViewChild('googleBtn')googleBtn!: ElementRef;
 
   private formSubmitted: boolean = false;
 
@@ -29,6 +33,25 @@ export class LoginComponent implements OnInit{
     if(localStorage.getItem('email')){
       this.loginForm.get('remember')?.setValue(true);
     }
+  }
+
+  ngAfterViewInit(): void {
+    this.googleInit();
+  }
+
+  googleInit(){
+    google.accounts.id.initialize({
+      client_id: "956878190988-389l74jnk83v67bakbfqdi6kccfe8lgs.apps.googleusercontent.com",
+      callback: this.handleCredentialResponse
+    });
+    google.accounts.id.renderButton(
+      this.googleBtn.nativeElement,
+      { theme: "outline", size: "large" }  // customization attributes
+    );
+  }
+
+  handleCredentialResponse(response: any){
+    console.log("Encoded JWT ID token: " + response.credential);
   }
 
   login(){
