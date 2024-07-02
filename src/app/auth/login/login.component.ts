@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertService } from 'src/app/services/alert.service';
@@ -27,7 +27,8 @@ export class LoginComponent implements OnInit, AfterViewInit{
 
   constructor(private _router: Router,
               private _userService: UserService,
-              private _swal: AlertService
+              private _swal: AlertService,
+              private _ngZone: NgZone
   ){}
 
   ngOnInit(): void {
@@ -58,8 +59,10 @@ export class LoginComponent implements OnInit, AfterViewInit{
     Swal.showLoading();
     this._userService.loginWithGoogle(response.credential)
         .subscribe({
-          next: (resp) => {
-            this._router.navigateByUrl('/dashboard');
+          next: () => {
+            this._ngZone.run( () => {
+              this._router.navigateByUrl('/dashboard');
+            });
           },
           error: (error) => {
             console.log(error);
@@ -81,7 +84,9 @@ export class LoginComponent implements OnInit, AfterViewInit{
           .subscribe({
             next: (resp) => {
               (this.loginForm.get('remember')?.value) ? localStorage.setItem('email', this.loginForm.get('email')?.value) : localStorage.removeItem('email');
-              this._router.navigateByUrl('/dashboard');
+              this._ngZone.run( () => {
+                this._router.navigateByUrl('/dashboard');
+              });
             },
             error: (error) => {
               console.log(error);
