@@ -5,6 +5,8 @@ import { createUserFormInterface } from '../interfaces/create-user-form.interfac
 import { LoginFormInterface } from '../interfaces/login-form.interface';
 import { Observable, catchError, map, of, tap } from 'rxjs';
 
+declare const google : any;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -37,6 +39,7 @@ export class UserService {
                 .pipe(
                   tap( (resp: any) => {
                     localStorage.setItem('token', resp.token);
+                    localStorage.setItem('email_logged', resp.email);
                   })
                 );
   }
@@ -49,12 +52,20 @@ export class UserService {
     }).pipe(
       // To save the new token in the local storage
       tap( (resp: any) => {
-        console.log(resp);
         localStorage.setItem('token', resp.new_token);
       }),
       map( resp => true ),
       // catchError is for handle errors
       catchError(error => of(false))
     );
+  }
+
+  logout(){
+
+    const email_logged = localStorage.getItem('email_logged') || null;
+
+    localStorage.removeItem('token');
+
+    (email_logged != null) ? google.accounts.id.revoke(email_logged, () => { localStorage.removeItem('email_logged') }) : '';
   }
 }
