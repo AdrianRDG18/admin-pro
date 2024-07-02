@@ -5,6 +5,7 @@ import { AlertService } from 'src/app/services/alert.service';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
 
+// This is a workaround to avoid TypeScript errors when using google.accounts.id
 declare const google: any;
 
 @Component({
@@ -39,10 +40,11 @@ export class LoginComponent implements OnInit, AfterViewInit{
     this.googleInit();
   }
 
+  // This method is used to initialize the Google Sign-In button
   googleInit(){
     google.accounts.id.initialize({
       client_id: "956878190988-389l74jnk83v67bakbfqdi6kccfe8lgs.apps.googleusercontent.com",
-      callback: this.handleCredentialResponse
+      callback: (resp: any) => this.handleCredentialResponse(resp)
     });
     google.accounts.id.renderButton(
       this.googleBtn.nativeElement,
@@ -50,8 +52,21 @@ export class LoginComponent implements OnInit, AfterViewInit{
     );
   }
 
+  // This method is used to handle the response from the Google Sign-In button
   handleCredentialResponse(response: any){
-    console.log("Encoded JWT ID token: " + response.credential);
+    this._swal.swalProcessingRequest();
+    Swal.showLoading();
+    this._userService.loginWithGoogle(response.credential)
+        .subscribe({
+          next: (resp) => {
+            this._router.navigateByUrl('/dashboard');
+          },
+          error: (error) => {
+            console.log(error);
+            this._swal.swalError("Something went wrong", error.error.msg);
+          },
+          complete: () => Swal.close()
+        });
   }
 
   login(){
@@ -66,8 +81,7 @@ export class LoginComponent implements OnInit, AfterViewInit{
           .subscribe({
             next: (resp) => {
               (this.loginForm.get('remember')?.value) ? localStorage.setItem('email', this.loginForm.get('email')?.value) : localStorage.removeItem('email');
-              console.log(resp);
-              // this._router.navigateByUrl('/dashboard');
+              this._router.navigateByUrl('/dashboard');
             },
             error: (error) => {
               console.log(error);
