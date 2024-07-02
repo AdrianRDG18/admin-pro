@@ -8,11 +8,13 @@ import { Graph1Component } from './graph1/graph1.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { PromisesComponent } from './promises/promises.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
+import { authGuard } from '../guards/auth.guard';
 
 const routes: Routes = [
     { 
-        path: 'dashboard', 
-        component: PagesComponent, 
+        path: 'dashboard',
+        component: PagesComponent,
+        canActivate: [ authGuard ],
         children: [
             //This is the first child component that it will show when the path will be only "/dashboard" (So it will show the DashboardComponent)
             //If you want show other compoment, then you have to put the name of the component, something like this: { path: '', component: MyPeferedComponent },

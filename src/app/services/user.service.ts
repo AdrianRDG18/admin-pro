@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
 import { createUserFormInterface } from '../interfaces/create-user-form.interface';
 import { LoginFormInterface } from '../interfaces/login-form.interface';
-import { tap } from 'rxjs';
+import { Observable, catchError, map, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -41,4 +41,20 @@ export class UserService {
                 );
   }
 
+  validateToken(): Observable<boolean>{
+    const token = localStorage.getItem('token') || '';
+
+    return this._http.get(`${this.api_url_base}/login/renew`, {
+      headers: { 'x-token': token }
+    }).pipe(
+      // To save the new token in the local storage
+      tap( (resp: any) => {
+        console.log(resp);
+        localStorage.setItem('token', resp.new_token);
+      }),
+      map( resp => true ),
+      // catchError is for handle errors
+      catchError(error => of(false))
+    );
+  }
 }
