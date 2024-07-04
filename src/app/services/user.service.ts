@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment.development';
 import { createUserFormInterface } from '../interfaces/create-user-form.interface';
 import { LoginFormInterface } from '../interfaces/login-form.interface';
 import { Observable, catchError, map, of, tap } from 'rxjs';
+import { User } from '../models/user.model';
 
 declare const google : any;
 
@@ -13,6 +14,8 @@ declare const google : any;
 export class UserService {
 
   private api_url_base: string = environment.API_URL_BASE;
+
+  public user: User | undefined;
 
   constructor(private _http: HttpClient) {}
 
@@ -52,11 +55,19 @@ export class UserService {
     }).pipe(
       // To save the new token in the local storage
       tap( (resp: any) => {
+
+        const {email, google, name, role, image, uid, status} = resp.user;
+        this.user = new User(name, email, '', image, google, role, uid, status);
+        this.user.printUSer();
+
         localStorage.setItem('token', resp.new_token);
       }),
       map( resp => true ),
       // catchError is for handle errors
-      catchError(error => of(false))
+      catchError(error => {
+        console.log(error);
+        return of(false)
+      })
     );
   }
 
