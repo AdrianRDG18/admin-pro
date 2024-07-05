@@ -5,6 +5,7 @@ import { createUserFormInterface } from '../interfaces/create-user-form.interfac
 import { LoginFormInterface } from '../interfaces/login-form.interface';
 import { Observable, catchError, map, of, tap } from 'rxjs';
 import { User } from '../models/user.model';
+import { DomSanitizer } from '@angular/platform-browser';
 
 declare const google : any;
 
@@ -15,9 +16,12 @@ export class UserService {
 
   private api_url_base: string = environment.API_URL_BASE;
 
+  // Instance of class(User)
   public user: User | undefined;
 
-  constructor(private _http: HttpClient) {}
+  constructor(private _http: HttpClient,
+              private _sanitaizer: DomSanitizer
+  ) {}
 
   createUser(createUserForm: createUserFormInterface) {
     return this._http.post(`${this.api_url_base}/users`, createUserForm)
@@ -56,9 +60,9 @@ export class UserService {
       // To save the new token in the local storage
       tap( (resp: any) => {
 
+        // Make instance of class(User) and pass the data from the response
         const {email, google, name, role, image, uid, status} = resp.user;
         this.user = new User(name, email, '', image, google, role, uid, status);
-        this.user.printUSer();
 
         localStorage.setItem('token', resp.new_token);
       }),
@@ -79,4 +83,22 @@ export class UserService {
 
     (email_logged != null) ? google.accounts.id.revoke(email_logged, () => { localStorage.removeItem('email_logged') }) : '';
   }
+
+  getImageAPI(user_image: string): Observable<any>{
+    const token = localStorage.getItem('token') || '';
+
+    return this._http.get(`${this.api_url_base}/upload/users/${user_image}`, {
+      headers: { 'x-token': token },
+      // When recieve a image via http request(API), the responseType must be 'blob'
+      responseType: 'blob' as 'json'
+    }).pipe(
+      map( (imageBlob: any) =>{
+          // Create a DOMString representing the image
+          let objectURL = URL.createObjectURL(imageBlob);
+          // Prevent security errors with sanitizer
+          return this._sanitaizer.bypassSecurityTrustUrl(objectURL);
+      })
+    );
+  }
+
 }
