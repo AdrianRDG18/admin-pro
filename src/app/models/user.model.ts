@@ -10,7 +10,10 @@ export class User{
         public status?: string
     ){}
 
-    public printUSer(){
-        console.log(this.name);
+    get getImageURL(){
+        return {
+            google: this.google,
+            image: this.image
+        };
     }
 }
