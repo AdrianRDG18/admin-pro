@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { User } from 'src/app/models/user.model';
 import { AlertService } from 'src/app/services/alert.service';
 import { SidebarService } from 'src/app/services/sidebar.service';
 import { UserService } from 'src/app/services/user.service';
@@ -14,16 +15,21 @@ import Swal from 'sweetalert2';
 export class SidebarComponent {
 
   public imageURL: any = '';
+  public user: User | undefined;
 
   constructor(private _sidebarService: SidebarService,
               private _userService: UserService,
               private _router: Router,
               private _swal: AlertService){
+    // Call getImageURL method from User class
     this.setImage(this._userService.user?.getImageURL || '');
+    // Instance of class(User)
+    this.user = this._userService.user;
   }
 
   setImage(imageData: any): void{
 
+    // If google filed is true, the image is from google
     if(imageData.google){
       this.imageURL = imageData.image;
     }else{
