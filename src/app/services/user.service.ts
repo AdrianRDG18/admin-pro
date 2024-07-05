@@ -58,15 +58,15 @@ export class UserService {
       headers: { 'x-token': token }
     }).pipe(
       // To save the new token in the local storage
-      tap( (resp: any) => {
+      map( (resp: any) => {
 
         // Make instance of class(User) and pass the data from the response
         const {email, google, name, role, image, uid, status} = resp.user;
         this.user = new User(name, email, '', image, google, role, uid, status);
 
         localStorage.setItem('token', resp.new_token);
+        return true;
       }),
-      map( resp => true ),
       // catchError is for handle errors
       catchError(error => {
         console.log(error);
