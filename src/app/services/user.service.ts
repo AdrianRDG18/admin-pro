@@ -23,6 +23,14 @@ export class UserService {
               private _sanitaizer: DomSanitizer
   ) {}
 
+  get tokenOnHeader(): any{
+    return { headers: {'x-token': localStorage.getItem('token') || ''} };
+  }
+
+  get uid(): string{
+    return this.user?.uid || '';
+  }
+
   createUser(createUserForm: createUserFormInterface) {
     return this._http.post(`${this.api_url_base}/users`, createUserForm)
                 .pipe(
@@ -30,6 +38,15 @@ export class UserService {
                     localStorage.setItem('token', resp.token);
                   })
                 );
+  }
+
+  updateUser(data: { name: string, email: string, role?: string}){
+
+    data = {
+      ...data,
+      role: 'USER_ROLEEEEE'
+    }
+    return this._http.put(`${this.api_url_base}/users/${this.uid}`, data, this.tokenOnHeader );
   }
 
   login(loginForm: LoginFormInterface){

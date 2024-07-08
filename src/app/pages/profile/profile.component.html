@@ -4,22 +4,24 @@
             <div class="card-body">
                 <h4 class="card-title">User info</h4>
                 <h6 class="card-subtitle">If you want, you can update your data</h6>
-                <form class="form p-t-20" autocomplete="off">
+                <form class="form p-t-20" autocomplete="off" [formGroup]="profileForm" (ngSubmit)="updateProfile()">
                     <div class="form-group">
                         <label for="exampleInputuname">User Name</label>
                         <div class="input-group">
                             <div class="input-group-addon"><i class="ti-user"></i></div>
-                            <input type="text" class="form-control" id="exampleInputuname" placeholder="Username">
+                            <input type="text" class="form-control" formControlName="name" id="exampleInputuname" placeholder="Username">
                         </div>
+                        <span *ngIf="fieldValidation('name')" class="text-danger">* The name is required</span>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Email address</label>
                         <div class="input-group">
                             <div class="input-group-addon"><i class="ti-email"></i></div>
-                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                            <input type="email" class="form-control" formControlName="email" id="exampleInputEmail1" placeholder="Enter email">
                         </div>
+                        <span *ngIf="fieldValidation('email')" class="text-danger">* The email is required</span>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="pwd1">Password</label>
                         <div class="input-group">
                             <div class="input-group-addon"><i class="ti-lock"></i></div>
@@ -32,7 +34,7 @@
                             <div class="input-group-addon"><i class="ti-lock"></i></div>
                             <input type="password" class="form-control" id="pwd2" placeholder="Enter email">
                         </div>
-                    </div>
+                    </div> -->
 
                     <button type="submit" class="btn btn-success btn-block waves-effect waves-light m-r-10">Save</button>
                 </form>
