@@ -6,7 +6,7 @@ import { SharedModule } from '../shared/shared.module';
 import { ComponentsModule } from '../components/components.module';
 //This module is important when you use <router-outlet></router-outlet>
 import { AppRoutingModule } from '../app-routing.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 //Components
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -42,7 +42,8 @@ import { ProfileComponent } from './profile/profile.component';
     FormsModule,
     SharedModule,
     AppRoutingModule,
-    ComponentsModule
+    ComponentsModule,
+    ReactiveFormsModule
   ]
 })
 export class PagesModule { }
