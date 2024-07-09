@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { User } from 'src/app/models/user.model';
 import { AlertService } from 'src/app/services/alert.service';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
@@ -12,16 +13,22 @@ import Swal from 'sweetalert2';
 })
 export class ProfileComponent {
 
+  public profileForm: FormGroup;
   private formSubmited: boolean = false;
-
-  public profileForm: FormGroup = new FormGroup({
-    name: new FormControl('', [ Validators.required, Validators.minLength(3)]),
-    email: new FormControl('', [ Validators.required, Validators.email ])
-  });
+  private user: User | undefined;
 
   constructor(private _userService: UserService,
               private _swal: AlertService
-  ){}
+  ){
+
+    this.user = this._userService.user;
+
+    this.profileForm = new FormGroup({
+      name: new FormControl(this.user!.name, [ Validators.required, Validators.minLength(3)]),
+      email: new FormControl(this.user!.email, [ Validators.required, Validators.email ])
+    });
+
+  }
 
   updateProfile(){
 
@@ -34,6 +41,12 @@ export class ProfileComponent {
       this._userService.updateUser(this.profileForm.value)
           .subscribe({
             next: (resp: any) => {
+
+              // const { name, email } = this.profileForm.value;
+              const { name, email } = resp.user;
+              this.user!.name = name;
+              this.user!.email = email;
+
               console.log('Profile updated:', resp);
 
             }, error: (error: any) => {
