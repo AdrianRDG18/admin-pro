@@ -101,21 +101,4 @@ export class UserService {
     (email_logged != null) ? google.accounts.id.revoke(email_logged, () => { localStorage.removeItem('email_logged') }) : '';
   }
 
-  getImageAPI(user_image: string): Observable<any>{
-    const token = localStorage.getItem('token') || '';
-
-    return this._http.get(`${this.api_url_base}/upload/users/${user_image}`, {
-      headers: { 'x-token': token },
-      // When recieve a image via http request(API), the responseType must be 'blob'
-      responseType: 'blob' as 'json'
-    }).pipe(
-      map( (imageBlob: any) =>{
-          // Create a DOMString representing the image
-          let objectURL = URL.createObjectURL(imageBlob);
-          // Prevent security errors with sanitizer
-          return this._sanitaizer.bypassSecurityTrustUrl(objectURL);
-      })
-    );
-  }
-
 }
