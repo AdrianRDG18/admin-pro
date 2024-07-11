@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/models/user.model';
 import { AlertService } from 'src/app/services/alert.service';
+import { FileService } from 'src/app/services/file.service';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
 
@@ -15,14 +16,15 @@ export class ProfileComponent {
 
   public profileForm: FormGroup;
   private formSubmited: boolean = false;
-  private user: User | undefined;
+  public user: User | undefined;
+  public imageToUpload: File | undefined;
 
   constructor(private _userService: UserService,
-              private _swal: AlertService
+              private _swal: AlertService,
+              private _fileService: FileService
   ){
 
     this.user = this._userService.user;
-
     this.profileForm = new FormGroup({
       name: new FormControl(this.user!.name, [ Validators.required, Validators.minLength(3)]),
       email: new FormControl(this.user!.email, [ Validators.required, Validators.email ])
@@ -47,8 +49,6 @@ export class ProfileComponent {
               this.user!.name = name;
               this.user!.email = email;
 
-              console.log('Profile updated:', resp);
-
             }, error: (error: any) => {
               console.log('Something went wrong on updateProfile:', error);
               this._swal.swalError('Something went wrong on updateProfile: ', error.error.msg);
@@ -62,6 +62,38 @@ export class ProfileComponent {
       return true;
     }
     return false
+  }
+
+  setImage(event: any){
+    (event.target.files[0])? this.imageToUpload = event.target.files[0] : this.imageToUpload = undefined;
+  }
+
+  uploadImage(){
+
+    if(this.imageToUpload){
+      this._swal.swalProcessingRequest();
+      Swal.showLoading();
+      this._fileService.uploadFile(this.imageToUpload, 'users', this.user!.uid)
+          .subscribe({
+            next: (resp: any) => {
+
+              this._fileService.getImageAPI(resp.file_name)
+                  .subscribe({
+                    next: (image: any) => {
+                      this._userService.user!.imageURL = image;
+                      this.imageToUpload = undefined;
+                    }, error: (error: any) => {
+                      console.log(error);
+                      this._swal.swalError('Something went wrong on uploadImage.getImageAPI:', error.error.msg);
+                    }
+                  });
+
+            }, error: (error: any) => {
+              console.log(error);
+              this._swal.swalError('Something went wrong on uploadImage:', error.error.msg);
+            }, complete: () => this._swal.swalSuccess('Image uploaded', 'The image was uploaded successfully')
+          });
+    }
   }
 
 }

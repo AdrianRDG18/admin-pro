@@ -54,10 +54,14 @@
 
                 <div class="form-group">
                     <label for="exampleInputEmail1">Update image</label>
-                    <input type="file" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                    <input type="file" class="form-control" [disabled]="user?.google"
+                           id="exampleInputEmail1" placeholder="Enter email"
+                           (change)="setImage($event)">
                 </div>
 
-                <button type="submit" class="btn btn-success btn-block waves-effect waves-light m-r-10">Update</button>
+                <button type="submit" (click)="uploadImage()" [disabled]="!imageToUpload || user?.google"
+                        class="btn btn-success btn-block waves-effect waves-light m-r-10" >Upload image</button>
+                <span *ngIf="user?.google === true" class="text-danger">You can't upload your profile picture from here, fix it from google, please.</span>
             </div>
         </div>
     </div>
