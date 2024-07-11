@@ -14,7 +14,7 @@ declare const google : any;
 })
 export class UserService {
 
-  private api_url_base: string = environment.API_URL_BASE;
+  private api_base_url: string = environment.API_BASE_URL;
 
   // Instance of class(User)
   public user: User | undefined;
@@ -32,7 +32,7 @@ export class UserService {
   }
 
   createUser(createUserForm: createUserFormInterface) {
-    return this._http.post(`${this.api_url_base}/users`, createUserForm)
+    return this._http.post(`${this.api_base_url}/users`, createUserForm)
                 .pipe(
                   tap( (resp: any) => {
                     localStorage.setItem('token', resp.token);
@@ -46,11 +46,11 @@ export class UserService {
       ...data,
       role: 'USER_ROLEEEEE'
     }
-    return this._http.put(`${this.api_url_base}/users/${this.uid}`, data, this.tokenOnHeader );
+    return this._http.put(`${this.api_base_url}/users/${this.uid}`, data, this.tokenOnHeader );
   }
 
   login(loginForm: LoginFormInterface){
-    return this._http.post(`${this.api_url_base}/login`, loginForm)
+    return this._http.post(`${this.api_base_url}/login`, loginForm)
                 .pipe(
                   tap( (resp: any) => {
                     localStorage.setItem('token', resp.token);
@@ -59,7 +59,7 @@ export class UserService {
   }
 
   loginWithGoogle(token: string){
-    return this._http.post(`${this.api_url_base}/login/google`, {token: token})
+    return this._http.post(`${this.api_base_url}/login/google`, {token: token})
                 .pipe(
                   tap( (resp: any) => {
                     localStorage.setItem('token', resp.token);
@@ -71,7 +71,7 @@ export class UserService {
   validateToken(): Observable<boolean>{
     const token = localStorage.getItem('token') || '';
 
-    return this._http.get(`${this.api_url_base}/login/renew`, {
+    return this._http.get(`${this.api_base_url}/login/renew`, {
       headers: { 'x-token': token }
     }).pipe(
       // To save the new token in the local storage

@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment.development';
 })
 export class FileService {
 
-  private api_base_url = environment.API_URL_BASE;
+  private api_base_url = environment.API_BASE_URL;
 
   constructor(private _http: HttpClient,
               private _sanitaizer: DomSanitizer
