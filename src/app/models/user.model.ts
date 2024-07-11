@@ -4,16 +4,17 @@ export class User{
         public email: string,
         public password?: string,
         public image?: string,
-        public google?: string,
+        public google?: boolean,
         public role?: string,
         public uid?: string,
-        public status?: string
+        public status?: string,
+        public imageURL?: string
     ){}
 
-    get getImageURL(){
-        return {
-            google: this.google,
-            image: this.image
-        };
+    get getGoogle(){
+
+        (this.google) ? this.imageURL = this.image : '';
+
+        return this.google;
     }
 }

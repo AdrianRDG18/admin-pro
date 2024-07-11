@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user.model';
 import { AlertService } from 'src/app/services/alert.service';
+import { FileService } from 'src/app/services/file.service';
 import { SidebarService } from 'src/app/services/sidebar.service';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
@@ -14,32 +15,30 @@ import Swal from 'sweetalert2';
 })
 export class SidebarComponent {
 
-  public imageURL: any = '';
   public user: User | undefined;
 
   constructor(private _sidebarService: SidebarService,
+              private _fileService: FileService,
               private _userService: UserService,
               private _router: Router,
               private _swal: AlertService){
-    // Call getImageURL method from User class
-    this.setImage(this._userService.user?.getImageURL || '');
     // Instance of class(User)
     this.user = this._userService.user;
+    // Call getImage method from User class
+    this.setImage(this._userService.user!.getGoogle);
   }
 
-  setImage(imageData: any): void{
+  setImage(google: boolean | undefined): void{
 
     // If google filed is true, the image is from google
-    if(imageData.google){
-      this.imageURL = imageData.image;
-    }else{
+    if(!google){
 
       this._swal.swalProcessingRequest();
       Swal.showLoading();
 
-      this._userService.getImageAPI(imageData.image)
+      this._fileService.getImageAPI(this._userService.user!.image)
           .subscribe({
-            next: (image: any) => this.imageURL = image,
+            next: (image: any) => this.user!.imageURL = image,
             error: (error) => {
               console.log(error);
               this._swal.swalError('Error', error.error);
