@@ -12,3 +12,9 @@
 #buttonDiv iframe{
     display: inline!important;
 }
+
+/* Profile */
+.profile-image{
+    height: 200px;
+    width: 200px;
+}

@@ -18,6 +18,7 @@ export class ProfileComponent {
   private formSubmited: boolean = false;
   public user: User | undefined;
   public imageToUpload: File | undefined;
+  public imageToShow: any = '';
 
   constructor(private _userService: UserService,
               private _swal: AlertService,
@@ -65,7 +66,21 @@ export class ProfileComponent {
   }
 
   setImage(event: any){
-    (event.target.files[0])? this.imageToUpload = event.target.files[0] : this.imageToUpload = undefined;
+
+    if(event.target.files[0]){
+
+      this.imageToUpload = event.target.files[0];
+
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onloadend = () =>{
+        this.imageToShow = reader.result;
+      }
+    }else{
+      this.imageToUpload = undefined;
+      this.imageToShow = null;
+     }
+
   }
 
   uploadImage(){
@@ -82,6 +97,7 @@ export class ProfileComponent {
                     next: (image: any) => {
                       this._userService.user!.imageURL = image;
                       this.imageToUpload = undefined;
+                      this.imageToShow = null;
                     }, error: (error: any) => {
                       console.log(error);
                       this._swal.swalError('Something went wrong on uploadImage.getImageAPI:', error.error.msg);

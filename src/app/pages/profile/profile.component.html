@@ -48,8 +48,10 @@
                 <h6 class="card-subtitle">If you want, you can update your picture</h6>
 
                 <div class="form-group">
-                    <label for="exampleInputuname">Actually image</label>
-                    <img src="" alt="">
+                    <div class="text-center">
+                        <img *ngIf="!imageToShow" [src]="user?.imageURL" class="profile-image">
+                        <img *ngIf="imageToShow" [src]="imageToShow" class="profile-image">
+                    </div>
                 </div>
 
                 <div class="form-group">
