@@ -21,7 +21,7 @@
                 <li class="nav-small-cap">PERSONAL</li>
                 <li *ngFor="let option_menu of menu"> 
                     <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
-                        <i class="{{option_menu.icon}}"></i>
+                        <i [class]="option_menu.icon"></i>
                         <span class="hide-menu"> {{ option_menu.title}} 
                             <span class="label label-rouded label-themecolor pull-right">{{option_menu.submenu.length}}</span>
                         </span>
