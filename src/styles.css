@@ -1,3 +1,22 @@
+/* General
+****************************************************************************************
+*/
+
+.ml-1{margin-left: 1rem;}
+.ml-2{margin-left: 2rem;}
+.ml-3{margin-left: 3rem;}
+.ml-4{margin-left: 4rem;}
+.ml-5{margin-left: 5rem;}
+
+.mr-1{margin-right: 1rem;}
+.mr-2{margin-right: 2rem;}
+.mr-3{margin-right: 3rem;}
+.mr-4{margin-right: 4rem;}
+.mr-5{margin-right: 5rem;}
+
+/* General /
+****************************************************************************************
+*/
 .fast{
     -webkit-animation-duration:0.3s;
     animation-duration:0.3s;
@@ -17,4 +36,40 @@
 .profile-image{
     height: 200px;
     width: 200px;
+}
+
+.pagination-container{
+    display: flex;
+    align-items: center;
+}
+
+.pagination-number{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    width: 30px;
+    border: transparent solid 1px;
+    border-radius: 5px;
+    background: rgb(227, 227, 227);
+    color: black;
+    cursor: pointer;
+    font-weight: 500;
+}
+.pagination-number-active{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    width: 30px;
+    border: transparent solid 1px;
+    border-radius: 5px;
+    background: gray;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+}
+.records{
+    font-size: 13px;
+    margin-left: 5px;
 }

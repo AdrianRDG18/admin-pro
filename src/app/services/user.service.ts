@@ -101,4 +101,11 @@ export class UserService {
     (email_logged != null) ? google.accounts.id.revoke(email_logged, () => { localStorage.removeItem('email_logged') }) : '';
   }
 
+  getUsers(page: number = 1, limit: number = 10){
+    return this._http.get(`${this.api_base_url}/users?page=${page}&limit=${limit}`, this.tokenOnHeader)
+                .pipe(
+                  map( (response: any) => response.users )
+                );
+  }
+
 }

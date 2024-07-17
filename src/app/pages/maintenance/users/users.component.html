@@ -24,15 +24,32 @@
 </div>
 
 <div class="row animated fadeIn fast">
+
     <div class="col-12">
         <div class="card">
             <div class="card-body">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label"><strong>Limit of users per page:</strong></label>
+                            <select (change)="changeLimit()" [(ngModel)]="limit" class="form-control custom-select" data-placeholder="Choose a the limit of users per page" tabindex="1">
+                                <option [value]="5">5</option>
+                                <option [value]="10">10</option>
+                                <option [value]="25">25</option>
+                                <option [value]="50">50</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
                 <h4 class="card-title">Users</h4>
                 <h6 class="card-subtitle">List of registered users</h6>
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th>Avatar</th>
                                 <th>Email</th>
                                 <th>Name</th>
@@ -42,12 +59,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            <tr *ngFor="let user of response?.docs; let index = index">
+                                <td>{{index+1}}</td>
                                 <td>Lunar probe project</td>
-                                <td>Lunar probe project</td>
-                                <td>Lunar probe project</td>
-                                <td>Lunar probe project</td>
-                                <td>Lunar probe project</td>
+                                <td>{{user.email}}</td>
+                                <td>{{user.name}}</td>
+                                <td>{{user.role}}</td>
+                                <td>
+                                    <span *ngIf="user.google" class="label label-success">Google</span>
+                                    <span *ngIf="!user.google" class="label label-primary">Basic</span>
+                                </td>
                                 <td class="text-nowrap">
                                     <a href="#" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
                                     <a href="#" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
@@ -57,9 +78,23 @@
                     </table>
                 </div>
 
-                <button class="btn btn-secondary">Previous</button>
-                &nbsp;
-                <button class="btn btn-secondary">Next</button>
+                <div class="row mt-2 pagination-container">
+                        <button [disabled]="!response?.hasPrevPage"
+                                (click)="changePage(response!.prevPage)" class="btn btn-secondary">
+                            Previous
+                        </button>
+
+                        <span *ngIf="response?.hasPrevPage" class="pagination-number ml-2" (click)="changePage(response!.prevPage)">{{response?.prevPage}}</span>
+                        <span class="pagination-number-active ml-2 mr-2">{{response?.page}}</span>
+                        <span *ngIf="response?.hasNextPage" class="pagination-number mr-2" (click)="changePage(response!.nextPage)">{{response?.nextPage}}</span>
+
+                        <button [disabled]="!response?.hasNextPage"
+                                (click)="changePage(response!.nextPage)" class="btn btn-secondary">
+                            Next
+                        </button>
+
+                        <span class="records">Total records: {{response?.totalDocs}} </span>
+                </div>
             </div>
         </div>
     </div>
