@@ -7,7 +7,6 @@ import { ComponentsModule } from '../components/components.module';
 //This module is important when you use <router-outlet></router-outlet>
 import { AppRoutingModule } from '../app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 //Components
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProgressComponent } from './progress/progress.component';
@@ -18,6 +17,8 @@ import { PromisesComponent } from './promises/promises.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UsersComponent } from './maintenance/users/users.component';
+// Pipes
+import { TransformImagePipe } from '../pipes/transform-image.pipe';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { UsersComponent } from './maintenance/users/users.component';
     PromisesComponent,
     RxjsComponent,
     ProfileComponent,
-    UsersComponent
+    UsersComponent,
+    TransformImagePipe
   ],
   exports: [
     DashboardComponent,

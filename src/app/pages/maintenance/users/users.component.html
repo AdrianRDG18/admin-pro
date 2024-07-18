@@ -50,18 +50,20 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Avatar</th>
+                                <th class="w100">Avatar</th>
                                 <th>Email</th>
                                 <th>Name</th>
-                                <th>Role</th>
-                                <th>Auth</th>
-                                <th class="text-nowrap">Actions</th>
+                                <th class="w100">Role</th>
+                                <th class="w100">Auth</th>
+                                <th class="text-nowrap w100">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let user of response?.docs; let index = index">
                                 <td>{{index+1}}</td>
-                                <td>Lunar probe project</td>
+                                <td class="text-center">
+                                    <img [src]=" '' | transformImage: user | async" alt="User image" class="image-user-table"/>
+                                </td>
                                 <td>{{user.email}}</td>
                                 <td>{{user.name}}</td>
                                 <td>{{user.role}}</td>
