@@ -6,6 +6,7 @@ import { LoginFormInterface } from '../interfaces/login-form.interface';
 import { Observable, catchError, map, of, tap } from 'rxjs';
 import { User } from '../models/user.model';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ResponseInterface } from '../interfaces/response.interface';
 
 declare const google : any;
 
@@ -101,7 +102,7 @@ export class UserService {
     (email_logged != null) ? google.accounts.id.revoke(email_logged, () => { localStorage.removeItem('email_logged') }) : '';
   }
 
-  getUsers(page: number = 1, limit: number = 10){
+  getUsers(page: number = 1, limit: number = 10): Observable<ResponseInterface>{
     return this._http.get(`${this.api_base_url}/users?page=${page}&limit=${limit}`, this.tokenOnHeader)
                 .pipe(
                   map( (response: any) => response.users )
