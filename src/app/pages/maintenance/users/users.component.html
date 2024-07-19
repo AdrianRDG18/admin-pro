@@ -3,10 +3,10 @@
         <div class="card">
             <div class="card-body">
                 <div class="form-group">
-                    <label for="exampleInputuname">Find user</label>
+                    <label for="term-user">Find user</label>
                     <div class="input-group">
                         <div class="input-group-addon"><i class="ti-search"></i></div>
-                        <input type="text" class="form-control" id="exampleInputuname" placeholder="Write an email or username">
+                        <input type="text" class="form-control" id="term-user" placeholder="Write a term to find user" #term_user (keyup)="findUser(term_user.value)">
                     </div>
                 </div>
             </div>
@@ -15,19 +15,10 @@
 </div>
 
 <div class="row animated fadeIn fast">
-    <div class="col-12">
-        <div class="alert alert-info text-center">
-            <h4 class="alert-heading">Loading...</h4>
-            <i class="fa fa-spin fa-refresh fa-2x"></i>
-        </div>
-    </div>
-</div>
-
-<div class="row animated fadeIn fast">
 
     <div class="col-12">
         <div class="card">
-            <div class="card-body">
+            <div class="card-body" *ngIf="response?.docs">
 
                 <div class="row">
                     <div class="col-md-6">
@@ -71,13 +62,21 @@
                                     <span *ngIf="user.google" class="label label-success">Google</span>
                                     <span *ngIf="!user.google" class="label label-primary">Basic</span>
                                 </td>
-                                <td class="text-nowrap">
+                                <td class="text-nowrap text-center">
                                     <a href="#" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
                                     <a href="#" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
+                    <div *ngIf="loading" class="row animated fadeIn fast">
+                        <div class="col-12">
+                            <div class="alert alert-info text-center">
+                                <h4 class="alert-heading">Loading...</h4>
+                                <i class="fa fa-spin fa-refresh fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="row mt-2 pagination-container">
