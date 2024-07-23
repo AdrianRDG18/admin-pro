@@ -20,9 +20,7 @@ export class UserService {
   // Instance of class(User)
   public user: User | undefined;
 
-  constructor(private _http: HttpClient,
-              private _sanitaizer: DomSanitizer
-  ) {}
+  constructor(private _http: HttpClient) {}
 
   get tokenOnHeader(): any{
     return { headers: {'x-token': localStorage.getItem('token') || ''} };
@@ -107,6 +105,10 @@ export class UserService {
                 .pipe(
                   map( (response: any) => response.users )
                 );
+  }
+
+  deleteUSer(uid: string){
+    return this._http.delete(`${this.api_base_url}/users/${uid}`, this.tokenOnHeader);
   }
 
 }

@@ -42,8 +42,9 @@
                             <tr>
                                 <th>#</th>
                                 <th class="w100">Avatar</th>
-                                <th>Email</th>
                                 <th>Name</th>
+                                <th>Email</th>
+                                <th>Estatus</th>
                                 <th class="w100">Role</th>
                                 <th class="w100">Auth</th>
                                 <th class="text-nowrap w100">Actions</th>
@@ -55,8 +56,9 @@
                                 <td class="text-center">
                                     <img [src]=" '' | transformImage: user | async" alt="User image" class="image-user-table"/>
                                 </td>
-                                <td>{{user.email}}</td>
                                 <td>{{user.name}}</td>
+                                <td>{{user.email}}</td>
+                                <td><span [ngClass]="user.status === 'ACTIVE' ? 'badge badge-success' : 'badge badge-warning'">{{user.status}}</span></td>
                                 <td>{{user.role}}</td>
                                 <td>
                                     <span *ngIf="user.google" class="label label-success">Google</span>
@@ -64,7 +66,7 @@
                                 </td>
                                 <td class="text-nowrap text-center">
                                     <a href="#" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                                    <a href="#" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                                    <a *ngIf="user.email !== emaiLogged" (click)="deleteUser(user)"> <i class="fa fa-close text-danger cursor-pointer"></i> </a>
                                 </td>
                             </tr>
                         </tbody>

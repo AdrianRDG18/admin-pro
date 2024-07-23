@@ -42,4 +42,17 @@ export class AlertService {
       allowEnterKey: false
     });
   }
+
+  swalConfirm(title: string, msg: string){
+    return Swal.fire({
+      title: title,
+      html: msg,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#0871EF',
+      cancelButtonColor: '#D4D4D4',
+      confirmButtonText: 'Confirm',
+    })
+  }
+
 }
