@@ -45,7 +45,7 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Estatus</th>
-                                <th class="w100">Role</th>
+                                <th class="w140">Role</th>
                                 <th class="w100">Auth</th>
                                 <th class="text-nowrap w100">Actions</th>
                             </tr>
@@ -59,7 +59,14 @@
                                 <td>{{user.name}}</td>
                                 <td>{{user.email}}</td>
                                 <td><span [ngClass]="user.status === 'ACTIVE' ? 'badge badge-success' : 'badge badge-warning'">{{user.status}}</span></td>
-                                <td>{{user.role}}</td>
+                                <td>
+                                    <select class="form-control" [(ngModel)]="user.role"
+                                            [disabled]="_userService.user!.role !== 'ADMIN_ROLE' || user.email === emaiLogged"
+                                            (change)="changeRole(user)">
+                                        <option value="ADMIN_ROLE">Admin</option>
+                                        <option value="USER_ROLE">User</option>
+                                    </select>
+                                </td>
                                 <td>
                                     <span *ngIf="user.google" class="label label-success">Google</span>
                                     <span *ngIf="!user.google" class="label label-primary">Basic</span>

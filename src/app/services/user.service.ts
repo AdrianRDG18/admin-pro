@@ -111,4 +111,14 @@ export class UserService {
     return this._http.delete(`${this.api_base_url}/users/${uid}`, this.tokenOnHeader);
   }
 
+  updateRole(user: User): Observable<any>{
+    const url = `${this.api_base_url}/users/${user.uid}`
+    const data = {
+      role: user.role,
+      name: user.name,
+      email: user.email
+    }
+    return this._http.put(url, data, this.tokenOnHeader);
+  }
+
 }

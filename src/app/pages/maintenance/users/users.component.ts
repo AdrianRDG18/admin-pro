@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ResponseInterface } from 'src/app/interfaces/response.interface';
 import { User } from 'src/app/models/user.model';
 import { AlertService } from 'src/app/services/alert.service';
+import { CatchErrorService } from 'src/app/services/catch-error.service';
 import { SearchService } from 'src/app/services/search.service';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
@@ -19,9 +20,10 @@ export class UsersComponent {
   public loading: boolean = false;
   @ViewChild('term_user') term: ElementRef | undefined; 
 
-  constructor(private _userService: UserService,
+  constructor(public _userService: UserService,
               private _searchService: SearchService,
-              private _swal: AlertService
+              private _swal: AlertService,
+              private _catchError: CatchErrorService
   ){
     this.getUserList();
   }
@@ -39,7 +41,7 @@ export class UsersComponent {
             this.response = resp;
           }, error: (error) => {
             console.log(error);
-            this._swal.swalError('Something went wrong on getUserList: ', error.error.msg);
+            this._catchError.scaleError('Something went wrong on getUserList', error);
           }, complete: () => Swal.close()
         });
   }
@@ -71,9 +73,9 @@ export class UsersComponent {
           .subscribe({
             next: (resp: ResponseInterface) => {
               this.response = resp;
-            }, error: (error: any) => {
+            }, error: (error) => {
               console.log(error);
-              this._swal.swalError('Sementhing went wrong on findUser: ', error.error.msg);
+              this._catchError.scaleError('Something went wrong on findUser', error);
             }, complete: () => this.loading = false
           });
     }
@@ -87,9 +89,9 @@ export class UsersComponent {
             Swal.showLoading();
             this._userService.deleteUSer(user.uid || '')
                 .subscribe({
-                  error: (error: any) =>{
+                  error: (error) =>{
                     console.log(error);
-                    this._swal.swalError('Something went wrong on deleteUser: ', error.error.msg);
+                    this._catchError.scaleError('Something went wrong on deleteUser', error);
                   }, complete: () => {
 
                     Swal.close();
@@ -101,6 +103,23 @@ export class UsersComponent {
                     }
 
                   }
+                });
+          }
+        });
+  }
+
+  changeRole(user: User): void{
+    this._swal.swalConfirm('Change role', `¿Are you sure to change the role of: <strong>${user.name}</strong>?`)
+        .then((result) =>{
+          if(result.isConfirmed){
+            this._swal.swalProcessingRequest();
+            Swal.showLoading();
+            this._userService.updateRole(user)
+                .subscribe({
+                  error: (error) => {
+                    console.log(error);
+                    this._catchError.scaleError('Something went wrong on changeRole', error);
+                  }, complete: () => Swal.close()
                 });
           }
         });
