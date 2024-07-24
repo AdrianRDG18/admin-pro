@@ -1,9 +1,11 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { ResponseInterface } from 'src/app/interfaces/response.interface';
 import { User } from 'src/app/models/user.model';
 import { AlertService } from 'src/app/services/alert.service';
 import { CatchErrorService } from 'src/app/services/catch-error.service';
 import { SearchService } from 'src/app/services/search.service';
+import { UploadImageService } from 'src/app/services/upload-image.service';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
 
@@ -19,13 +21,24 @@ export class UsersComponent {
   public limit : number = 10;
   public loading: boolean = false;
   @ViewChild('term_user') term: ElementRef | undefined; 
+  private imageUpdatedEvent: Subscription = new Subscription;
 
   constructor(public _userService: UserService,
               private _searchService: SearchService,
               private _swal: AlertService,
-              private _catchError: CatchErrorService
+              private _catchError: CatchErrorService,
+              private _uploadImageService: UploadImageService
   ){
     this.getUserList();
+  }
+
+  ngOnInit(): void {
+    this.imageUpdatedEvent = this._uploadImageService.imageUpdated
+                                 .subscribe( () => this.getUserList());
+  }
+
+  ngOnDestroy(): void {
+    this.imageUpdatedEvent.unsubscribe();
   }
 
   get emaiLogged(): string{
@@ -123,6 +136,10 @@ export class UsersComponent {
                 });
           }
         });
+  }
+
+  openModal(user: User){
+    this._uploadImageService.openModal(user);
   }
 
 }
