@@ -16,8 +16,8 @@ export class FileService {
   ) {}
 
 
-  uploadFile(image: File, collection: string, image_id: string | undefined = ''){
-    const url = `${this.api_base_url}/upload/${collection}/${image_id}`;
+  uploadFile(image: File, collection: 'users' | 'medics' | 'hospitals', element_id: string | undefined = ''){
+    const url = `${this.api_base_url}/upload/${collection}/${element_id}`;
 
     const formData = new FormData();
     formData.append('image', image);
