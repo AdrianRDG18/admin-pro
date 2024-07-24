@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, NgZone, OnInit, ViewChild } from 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertService } from 'src/app/services/alert.service';
+import { CatchErrorService } from 'src/app/services/catch-error.service';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
 
@@ -28,7 +29,8 @@ export class LoginComponent implements OnInit, AfterViewInit{
   constructor(private _router: Router,
               private _userService: UserService,
               private _swal: AlertService,
-              private _ngZone: NgZone
+              private _ngZone: NgZone,
+              private _catchError: CatchErrorService
   ){}
 
   ngOnInit(): void {
@@ -66,7 +68,7 @@ export class LoginComponent implements OnInit, AfterViewInit{
           },
           error: (error) => {
             console.log(error);
-            this._swal.swalError("Something went wrong", error.error.msg);
+            this._catchError.scaleError('Something went wrong on handleCredentialResponse', error);
           },
           complete: () => Swal.close()
         });
@@ -90,7 +92,7 @@ export class LoginComponent implements OnInit, AfterViewInit{
             },
             error: (error) => {
               console.log(error);
-              this._swal.swalError('Something went wrong', error.error.msg);
+              this._catchError.scaleError('Something went wrong on login', error);
             },
             complete: () => Swal.close()
           });
