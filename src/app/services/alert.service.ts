@@ -17,7 +17,6 @@ export class AlertService {
       allowEscapeKey: false,
       allowOutsideClick: false,
       allowEnterKey: false
-
     });
   }
 
