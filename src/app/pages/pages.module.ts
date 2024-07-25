@@ -17,6 +17,8 @@ import { PromisesComponent } from './promises/promises.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UsersComponent } from './maintenance/users/users.component';
+import { HospitalsComponent } from './maintenance/hospitals/hospitals.component';
+import { MedicsComponent } from './maintenance/medics/medics.component';
 // Pipes
 import { TransformImagePipe } from '../pipes/transform-image.pipe';
 
@@ -32,7 +34,9 @@ import { TransformImagePipe } from '../pipes/transform-image.pipe';
     RxjsComponent,
     ProfileComponent,
     UsersComponent,
-    TransformImagePipe
+    TransformImagePipe,
+    HospitalsComponent,
+    MedicsComponent
   ],
   exports: [
     DashboardComponent,
