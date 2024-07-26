@@ -20,7 +20,7 @@ import { UsersComponent } from './maintenance/users/users.component';
 import { HospitalsComponent } from './maintenance/hospitals/hospitals.component';
 import { MedicsComponent } from './maintenance/medics/medics.component';
 // Pipes
-import { TransformImagePipe } from '../pipes/transform-image.pipe';
+import { GetImagePipe } from '../pipes/get-image.pipe';
 
 
 @NgModule({
@@ -34,7 +34,7 @@ import { TransformImagePipe } from '../pipes/transform-image.pipe';
     RxjsComponent,
     ProfileComponent,
     UsersComponent,
-    TransformImagePipe,
+    GetImagePipe,
     HospitalsComponent,
     MedicsComponent
   ],
