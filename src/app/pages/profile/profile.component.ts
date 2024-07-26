@@ -92,7 +92,7 @@ export class ProfileComponent {
           .subscribe({
             next: (resp: any) => {
 
-              this._fileService.getImageAPI(resp.file_name)
+              this._fileService.getImageAPI(resp.file_name, 'users')
                   .subscribe({
                     next: (image: any) => {
                       this._userService.user!.imageURL = image;

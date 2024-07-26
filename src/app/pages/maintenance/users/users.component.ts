@@ -139,7 +139,7 @@ export class UsersComponent {
   }
 
   openModal(user: User){
-    this._uploadImageService.openModal(user);
+    this._uploadImageService.openModal(user, 'users');
   }
 
 }

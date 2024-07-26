@@ -29,10 +29,10 @@ export class FileService {
     })
   }
 
-  getImageAPI(user_image: string | undefined): Observable<any>{
+  getImageAPI(image: string | undefined, type: 'users' | 'hospitals' | 'medics'): Observable<any>{
     const token = localStorage.getItem('token') || '';
 
-    return this._http.get(`${this.api_base_url}/upload/users/${user_image}`, {
+    return this._http.get(`${this.api_base_url}/upload/${type}/${image}`, {
       headers: { 'x-token': token },
       // When recieve a image via http request(API), the responseType must be 'blob'
       responseType: 'blob' as 'json'

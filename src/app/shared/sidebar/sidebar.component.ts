@@ -36,7 +36,7 @@ export class SidebarComponent {
       this._swal.swalProcessingRequest();
       Swal.showLoading();
 
-      this._fileService.getImageAPI(this._userService.user!.image)
+      this._fileService.getImageAPI(this._userService.user!.image, 'users')
           .subscribe({
             next: (image: any) => this.user!.imageURL = image,
             error: (error) => {

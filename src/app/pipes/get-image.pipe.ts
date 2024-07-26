@@ -9,9 +9,9 @@ export class GetImagePipe implements PipeTransform {
 
   constructor(private _fileService: FileService){}
 
-  transform(element: any, type: string): any {
+  transform(element: any, type: 'users' | 'medics' | 'hospitals'): any {
 
-    if(type === 'user'){
+    if(type === 'users'){
       if(element.google){
         const numbers$ = of(element.image);
         return numbers$.pipe(
@@ -21,11 +21,11 @@ export class GetImagePipe implements PipeTransform {
         );
       };
     };
-    return this.getImageFromAPI(element.image);
+    return this.getImageFromAPI(element.image, type);
   }
 
-  getImageFromAPI(image: string){
-    return this._fileService.getImageAPI(image)
+  getImageFromAPI(image: string, type: 'users' | 'medics' | 'hospitals'){
+    return this._fileService.getImageAPI(image, type)
     .pipe(
       map( resp => {
         return resp;

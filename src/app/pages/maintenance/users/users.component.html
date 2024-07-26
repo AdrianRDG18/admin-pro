@@ -54,8 +54,8 @@
                             <tr *ngFor="let user of response?.docs; let index = index">
                                 <td>{{index+1}}</td>
                                 <td class="text-center">
-                                    <img *ngIf="_userService.user?.role === 'ADMIN_ROLE'" [src]=" '' | transformImage: user | async" alt="User image" class="image-user-table cursor-pointer" (click)="openModal(user)"/>
-                                    <img *ngIf="_userService.user?.role !== 'ADMIN_ROLE'" [src]=" '' | transformImage: user | async" alt="User image" class="image-user-table"/>
+                                    <img *ngIf="_userService.user?.role === 'ADMIN_ROLE'" [src]=" user | getImage: 'users' | async" alt="User image" class="image-table cursor-pointer" (click)="openModal(user)"/>
+                                    <img *ngIf="_userService.user?.role !== 'ADMIN_ROLE'" [src]=" user | getImage: 'users' | async" alt="User image" class="image-table"/>
                                 </td>
                                 <td>{{user.name}}</td>
                                 <td>{{user.email}}</td>
