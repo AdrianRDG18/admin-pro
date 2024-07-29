@@ -18,7 +18,7 @@ export class UserService {
   private api_base_url: string = environment.API_BASE_URL;
 
   // Instance of class(User)
-  public user: User | undefined;
+  public user?: User;
 
   constructor(private _http: HttpClient) {}
 

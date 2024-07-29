@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
 })
 export class HeaderComponent {
 
-  public user : User | undefined;
+  public user?: User;
 
   constructor(private _userService: UserService,
               private _fileService: FileService,
@@ -34,15 +34,17 @@ export class HeaderComponent {
       this._swal.swalProcessingRequest();
       Swal.showLoading();
 
-      this._fileService.getImageAPI(this._userService.user!.image, 'users')
-          .subscribe({
-            next: (image: any) => this.user!.imageURL = image,
-            error: (error) => {
-              console.log(error);
-              this._swal.swalError('Error', error.error);
-            },
-            complete: () => Swal.close()
-          });
+      if(this._userService.user?.image){
+        this._fileService.getImageAPI(this._userService.user.image, 'users')
+            .subscribe({
+              next: (image: any) => this.user!.imageURL = image,
+              error: (error) => {
+                console.log(error);
+                this._swal.swalError('Error', error.error);
+              },
+              complete: () => Swal.close()
+            });
+      }
     }
   }
 
