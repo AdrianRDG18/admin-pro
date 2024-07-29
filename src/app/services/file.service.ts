@@ -16,7 +16,7 @@ export class FileService {
   ) {}
 
 
-  uploadFile(image: File, collection: 'users' | 'medics' | 'hospitals', element_id: string | undefined = ''){
+  uploadFile(image: File, collection: string, element_id: string){
     const url = `${this.api_base_url}/upload/${collection}/${element_id}`;
 
     const formData = new FormData();
@@ -29,7 +29,7 @@ export class FileService {
     })
   }
 
-  getImageAPI(image: string | undefined, type: 'users' | 'hospitals' | 'medics'): Observable<any>{
+  getImageAPI(image: string, type: string): Observable<any>{
     const token = localStorage.getItem('token') || '';
 
     return this._http.get(`${this.api_base_url}/upload/${type}/${image}`, {
