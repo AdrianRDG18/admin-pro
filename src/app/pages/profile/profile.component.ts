@@ -16,7 +16,7 @@ export class ProfileComponent {
 
   public profileForm: FormGroup;
   private formSubmited: boolean = false;
-  public user: User | undefined;
+  public user?: User;
   public imageToUpload: File | undefined;
   public imageToShow: any = '';
 
@@ -88,27 +88,29 @@ export class ProfileComponent {
     if(this.imageToUpload){
       this._swal.swalProcessingRequest();
       Swal.showLoading();
-      this._fileService.uploadFile(this.imageToUpload, 'users', this.user!.uid)
-          .subscribe({
-            next: (resp: any) => {
-
-              this._fileService.getImageAPI(resp.file_name, 'users')
-                  .subscribe({
-                    next: (image: any) => {
-                      this._userService.user!.imageURL = image;
-                      this.imageToUpload = undefined;
-                      this.imageToShow = null;
-                    }, error: (error: any) => {
-                      console.log(error);
-                      this._swal.swalError('Something went wrong on uploadImage.getImageAPI:', error.error.msg);
-                    }
-                  });
-
-            }, error: (error: any) => {
-              console.log(error);
-              this._swal.swalError('Something went wrong on uploadImage:', error.error.msg);
-            }, complete: () => this._swal.swalSuccess('Image uploaded', 'The image was uploaded successfully')
-          });
+      if(this.user?.uid){
+        this._fileService.uploadFile(this.imageToUpload, 'users', this.user.uid)
+            .subscribe({
+              next: (resp: any) => {
+  
+                this._fileService.getImageAPI(resp.file_name, 'users')
+                    .subscribe({
+                      next: (image: any) => {
+                        this._userService.user!.imageURL = image;
+                        this.imageToUpload = undefined;
+                        this.imageToShow = null;
+                      }, error: (error: any) => {
+                        console.log(error);
+                        this._swal.swalError('Something went wrong on uploadImage.getImageAPI:', error.error.msg);
+                      }
+                    });
+  
+              }, error: (error: any) => {
+                console.log(error);
+                this._swal.swalError('Something went wrong on uploadImage:', error.error.msg);
+              }, complete: () => this._swal.swalSuccess('Image uploaded', 'The image was uploaded successfully')
+            });
+      }
     }
   }
 
