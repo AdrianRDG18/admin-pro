@@ -1,1 +1,85 @@
-<p>hospitals works!</p>
+<div class="row animated fadeIn fast">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="exampleInputuname">Find hospital</label>
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="ti-search"></i></div>
+                        <input type="text" class="form-control" id="exampleInputuname" placeholder="Write a term to find...">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fadeIn fast">
+    <div class="col-12">
+        <div class="alert alert-info text-center">
+            <h4 class="alert-heading">Loading...</h4>
+            <i class="fa fa-spin fa-refresh fa-2x"></i>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fadeIn fast">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label"><strong>Limit of users per page:</strong></label>
+                            <select (change)="changeLimit()" [(ngModel)]="limit" class="form-control custom-select" data-placeholder="Choose a the limit of users per page" tabindex="1">
+                                <option [value]="5">5</option>
+                                <option [value]="10">10</option>
+                                <option [value]="25">25</option>
+                                <option [value]="50">50</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 class="card-title">Hospitals</h4>
+                <h6 class="card-subtitle">List of registered hospitals</h6>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th class="w10">Avatar</th>
+                                <th>Name</th>
+                                <th>Estatus</th>
+                                <th class="text-nowrap">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let hospital of response?.docs; let i = index;">
+                                <td>{{i+1}}</td>
+                                <td>
+                                    <img class="image-table" [class.cursor-pointer]="userService.user?.role === 'ADMIN_ROLE'" 
+                                         [src]="hospital | getImage: 'hospitals' | async" [alt]="hospital.name"
+                                         (click)="openModal(hospital)">
+                                </td>
+                                <td>{{hospital.name}}</td>
+                                <td>
+                                    <span class="badge" [ngClass]="{'badge-success': hospital.status === 'ACTIVE', 'badge-warning': hospital.status === 'INACTIVE'}">{{hospital.status}}</span>
+                                </td>
+                                <td class="text-nowrap">
+                                    <a href="#" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                    <a href="#" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <button class="btn btn-secondary">Previous</button>
+                &nbsp;
+                <button class="btn btn-secondary">Next</button>
+            </div>
+        </div>
+    </div>
+</div>
