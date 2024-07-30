@@ -79,8 +79,10 @@
     margin-left: 5px;
 }
 
-/* Maintenance USERS */
-.image-user-table{
+/* Maintenances
+****************************************************************************************
+*/
+.image-table{
     height: 30px;
     width: 30px;
     border-radius: 50px;
@@ -99,3 +101,7 @@
 .hide-modal{
     display: none;
 }
+
+/* Maintenances /
+****************************************************************************************
+*/
