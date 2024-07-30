@@ -33,7 +33,7 @@ export class UsersComponent {
   }
 
   ngOnInit(): void {
-    this.imageUpdatedEvent = this._uploadImageService.imageUpdated
+    this.imageUpdatedEvent = this._uploadImageService.imageUpdatedEvent
                                  .subscribe( () => this.getUserList());
   }
 

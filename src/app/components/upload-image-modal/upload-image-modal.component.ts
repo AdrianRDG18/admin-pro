@@ -14,54 +14,61 @@ import Swal from 'sweetalert2';
 export class UploadImageModalComponent {
 
   public imageToUpload: File | undefined;
-  public imageToShow: any;
+  public imageToShow: any = '';
 
-  constructor(public _uploadImageService: UploadImageService,
+  constructor(public uploadImageService: UploadImageService,
               private _fileService: FileService,
               private _swal: AlertService,
               private _catchError: CatchErrorService
   ){}
 
   closeModal(){
-    this._uploadImageService.closeModal();
-    this.imageToShow = undefined;
-    this.imageToUpload = undefined;
+    this.uploadImageService.closeModal();
+    this.imageToUpload = undefined
+    this.imageToShow = null;
   }
 
   setImage(event: any){
-
     if(event.target.files[0]){
 
       this.imageToUpload = event.target.files[0];
 
       const reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
-      reader.onloadend = () => {
-        this.imageToShow = reader.result}
-      ;
+      reader.onloadend = () => this.imageToShow = reader.result;
 
-    }else{
-      this.imageToShow = undefined;
-      this.imageToUpload = undefined;
     }
   }
 
   uploadFile(){
+    
     if(this.imageToUpload !== undefined){
+      let element_id = '';
+
       this._swal.swalProcessingRequest();
       Swal.showLoading();
-      this._fileService.uploadFile(this.imageToUpload, 'users', this._uploadImageService.user?.uid)
+
+      if(this.uploadImageService.type === 'users'){
+        if(this.uploadImageService.user?.uid){
+          element_id = this.uploadImageService.user.uid;
+        }
+      }else{
+        element_id = this.uploadImageService.element_id;
+      }
+
+      this._fileService.uploadFile(this.imageToUpload, this.uploadImageService.type, element_id)
           .subscribe({
             next: () => {
-              this._uploadImageService.closeModal();
+              this.uploadImageService.closeModal();
               this.imageToShow = undefined;
               this.imageToUpload = undefined;
-              this._uploadImageService.imageUpdated.emit();
+              this.uploadImageService.imageUpdatedEvent.emit();
             },error: (error) => {
               console.log(error);
               this._catchError.scaleError('Something went wrong on uploadFile', error);
             }, complete: () => Swal.close()
           });
+
     }
   }
 

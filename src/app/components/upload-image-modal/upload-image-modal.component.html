@@ -1,26 +1,26 @@
 
-<div class="modal-background animated fadeIn fast" [class.hide-modal]="!_uploadImageService.displayModal">
+<div class="modal-background animated fadeIn fast" [class.hide-modal]="!uploadImageService.displayModal">
     <div id="myModal" class="modal fade show" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: block; padding-right: 17px;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title" id="myModalLabel">Update image</h4>
-                    <button type="button" class="close" aria-hidden="true" (click)="closeModal()">×</button>
+                    <button type="button" class="close cursor-pointer" aria-hidden="true" (click)="closeModal()">×</button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <h5 class="mb-5"><strong>Change the user profile picture</strong></h5>
+                        <h5 class="mb-5"><strong>Change the {{uploadImageService.type}} picture</strong></h5>
                         <div class="text-center">
-                            <img *ngIf="imageToUpload === undefined" [src]="_uploadImageService.user?.imageURL" alt="" class="profile-image">
+                            <img *ngIf="imageToUpload === undefined" [src]="uploadImageService.imageURL" alt="" class="profile-image">
                             <img *ngIf="imageToUpload !== undefined" [src]="imageToShow" alt="" class="profile-image">
                         </div>
 
                         <div class="form-group">
                             <label for="exampleInputEmail1">Update image</label>
-                            <input type="file" class="form-control" [disabled]="_uploadImageService.user?.google"
+                            <input type="file" class="form-control" [disabled]="uploadImageService.user?.google"
                                    id="exampleInputEmail1"
                                    (change)="setImage($event)">
-                            <small *ngIf="_uploadImageService.user?.google" class="text-danger">When the user is logged in with google, this function is disabled.</small>
+                            <small *ngIf="uploadImageService.user?.google" class="text-danger">When the user is logged in with google, this function is disabled.</small>
                         </div>
 
                     </div>
