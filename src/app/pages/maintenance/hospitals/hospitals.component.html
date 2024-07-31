@@ -3,22 +3,14 @@
         <div class="card">
             <div class="card-body">
                 <div class="form-group">
-                    <label for="exampleInputuname">Find hospital</label>
+                    <label for="hospitalTermToFind">Find hospital</label>
                     <div class="input-group">
                         <div class="input-group-addon"><i class="ti-search"></i></div>
-                        <input type="text" class="form-control" id="exampleInputuname" placeholder="Write a term to find...">
+                        <input type="text" class="form-control" id="hospitalTermToFind" placeholder="Write a term to find..."
+                               (input)="findHospitalByTerm(term_hospitals.value)" #term_hospitals>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-
-<div class="row animated fadeIn fast">
-    <div class="col-12">
-        <div class="alert alert-info text-center">
-            <h4 class="alert-heading">Loading...</h4>
-            <i class="fa fa-spin fa-refresh fa-2x"></i>
         </div>
     </div>
 </div>
@@ -74,11 +66,33 @@
                             </tr>
                         </tbody>
                     </table>
+                    <div class="row animated fadeIn fast" *ngIf="loading">
+                        <div class="col-12">
+                            <div class="alert alert-info text-center">
+                                <h4 class="alert-heading">Loading...</h4>
+                                <i class="fa fa-spin fa-refresh fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <button class="btn btn-secondary">Previous</button>
-                &nbsp;
-                <button class="btn btn-secondary">Next</button>
+                <div class="row mt-2 pagination-container">
+                    <button [disabled]="!response?.hasPrevPage"
+                            (click)="changePage(response!.prevPage)" class="btn btn-secondary">
+                        Previous
+                    </button>
+
+                    <span *ngIf="response?.hasPrevPage" class="pagination-number ml-2" (click)="changePage(response!.prevPage)">{{response?.prevPage}}</span>
+                    <span class="pagination-number-active ml-2 mr-2">{{response?.page}}</span>
+                    <span *ngIf="response?.hasNextPage" class="pagination-number mr-2" (click)="changePage(response!.nextPage)">{{response?.nextPage}}</span>
+
+                    <button [disabled]="!response?.hasNextPage"
+                            (click)="changePage(response!.nextPage)" class="btn btn-secondary">
+                        Next
+                    </button>
+
+                    <span class="records">Total records: {{response?.totalDocs}} </span>
+                </div>
             </div>
         </div>
     </div>
