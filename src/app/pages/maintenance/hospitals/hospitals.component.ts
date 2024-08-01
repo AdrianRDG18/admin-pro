@@ -22,6 +22,9 @@ export class HospitalsComponent {
   private imageUpdateEvent: Subscription = new Subscription;
   public loading: boolean = false;
   @ViewChild('term_hospitals') term_hospitals?: ElementRef;
+  public hospital!: HospitalInterface;
+  @ViewChild('hospital_name') hospital_name!: ElementRef;
+  @ViewChild('closeHospitalEditModal') closeHospitalEditModal!: ElementRef;
 
   constructor(private _hospitalServive: HospitalService,
               private _swal: AlertService,
@@ -47,7 +50,6 @@ export class HospitalsComponent {
         .subscribe({
           next: (resp: HospitalReponseInterface) => {
             this.response = resp;
-            console.log(resp.docs);
           }, error: (error) => {
             console.log(error);
             this._catchError.scaleError('Something went wrong on getHospitals', error);
@@ -93,6 +95,50 @@ export class HospitalsComponent {
     }else{
       this.findHospitalByTerm(this.term_hospitals?.nativeElement.value, page);
     }
+  }
+
+  setHospitalToEdit(hospital: HospitalInterface){
+    this.hospital = hospital;
+    this.hospital_name.nativeElement.value = hospital.name;
+  }
+
+  updateHospital(){
+    this._swal.swalConfirm('Update Hospital', `¿Are you sure to update this hospital?`)
+        .then((result) => {
+          if(result.isConfirmed){
+            let hospital = {
+              ...this.hospital,
+              name: this.hospital_name.nativeElement.value
+            }
+            this._swal.swalProcessingRequest();
+            Swal.showLoading();
+            this._hospitalServive.updateHospital(hospital)
+                .subscribe({
+                  next: () => this.getHospitals(),
+                  error: (error) => {
+                    console.log(error);
+                    this._catchError.scaleError('Something went wrong on updateHospital', error);
+                  }, complete: () => this.closeHospitalEditModal.nativeElement.click()
+                });
+          }
+        });
+  }
+
+  deleteHospital(hospital: HospitalInterface){
+    this._swal.swalConfirm('Hospital deletion', `¿Are you sure to delete this hospital: <strong>${hospital.name}</strong>?`)
+        .then((resp) => {
+          if(resp.isConfirmed){
+            this._swal.swalProcessingRequest();
+            Swal.showLoading();
+            this._hospitalServive.deleteHospital(hospital._id)
+                .subscribe({
+                  error: (error) => {
+                    console.log(error);
+                    this._catchError.scaleError('Something went wrong on deleteHospital', error);
+                  }, complete: () => this.getHospitals()
+                });
+          }
+        });
   }
 
 }

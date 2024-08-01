@@ -13,9 +13,10 @@ export interface HospitalReponseInterface{
 }
 
 export interface HospitalInterface{
+    _id: string;
     name: string;
     status: string;
-    image: string;
+    image?: string;
     creation_user: _UserCreation;
 }
 

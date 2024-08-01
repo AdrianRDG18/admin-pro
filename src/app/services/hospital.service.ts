@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
-import { HospitalReponseInterface } from '../interfaces/hospital-response.interface';
+import { HospitalInterface, HospitalReponseInterface } from '../interfaces/hospital-response.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +29,17 @@ export class HospitalService {
                   return resp.hospitals;
                 })
                );
+  }
+
+  updateHospital(hospital: HospitalInterface): Observable<any>{
+    const url = `${this.api_base_url}/hospitals/${hospital._id}`;
+    return this._http.put(url, hospital, this.headers);
+
+  }
+
+  deleteHospital(hospital_id: string): Observable<any>{
+    const url = `${this.api_base_url}/hospitals/${hospital_id}`;
+    return this._http.delete(url, this.headers);
   }
 
 }
