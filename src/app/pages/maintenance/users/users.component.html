@@ -6,7 +6,7 @@
                     <label for="term-user">Find user</label>
                     <div class="input-group">
                         <div class="input-group-addon"><i class="ti-search"></i></div>
-                        <input type="text" class="form-control" id="term-user" placeholder="Write a term to find user" #term_user (keyup)="findUser(term_user.value)">
+                        <input type="text" class="form-control" id="term-user" placeholder="Write a term to find user" #term_user (input)="findUser(term_user.value)">
                     </div>
                 </div>
             </div>
