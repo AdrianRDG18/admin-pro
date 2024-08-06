@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AlertService } from 'src/app/services/alert.service';
 import { CatchErrorService } from 'src/app/services/catch-error.service';
 import { FileService } from 'src/app/services/file.service';
-import { UploadImageService } from 'src/app/services/upload-image.service';
+import { ImageModalService } from 'src/app/services/image-modal.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -16,14 +16,14 @@ export class UploadImageModalComponent {
   public imageToUpload: File | undefined;
   public imageToShow: any = '';
 
-  constructor(public uploadImageService: UploadImageService,
+  constructor(public modalService: ImageModalService,
               private _fileService: FileService,
               private _swal: AlertService,
               private _catchError: CatchErrorService
   ){}
 
   closeModal(){
-    this.uploadImageService.closeModal();
+    this.modalService.closeModal();
     this.imageToUpload = undefined
     this.imageToShow = null;
   }
@@ -48,21 +48,21 @@ export class UploadImageModalComponent {
       this._swal.swalProcessingRequest();
       Swal.showLoading();
 
-      if(this.uploadImageService.type === 'users'){
-        if(this.uploadImageService.user?.uid){
-          element_id = this.uploadImageService.user.uid;
+      if(this.modalService.type === 'users'){
+        if(this.modalService.user?.uid){
+          element_id = this.modalService.user.uid;
         }
       }else{
-        element_id = this.uploadImageService.element_id;
+        element_id = this.modalService.element_id;
       }
 
-      this._fileService.uploadFile(this.imageToUpload, this.uploadImageService.type, element_id)
+      this._fileService.uploadFile(this.imageToUpload, this.modalService.type, element_id)
           .subscribe({
             next: () => {
-              this.uploadImageService.closeModal();
+              this.modalService.closeModal();
               this.imageToShow = undefined;
               this.imageToUpload = undefined;
-              this.uploadImageService.imageUpdatedEvent.emit();
+              this.modalService.imageUpdatedEvent.emit();
             },error: (error) => {
               console.log(error);
               this._catchError.scaleError('Something went wrong on uploadFile', error);

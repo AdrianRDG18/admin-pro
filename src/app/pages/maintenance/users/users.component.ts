@@ -5,7 +5,7 @@ import { User } from 'src/app/models/user.model';
 import { AlertService } from 'src/app/services/alert.service';
 import { CatchErrorService } from 'src/app/services/catch-error.service';
 import { SearchService } from 'src/app/services/search.service';
-import { UploadImageService } from 'src/app/services/upload-image.service';
+import { ImageModalService } from 'src/app/services/image-modal.service';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
 
@@ -27,13 +27,13 @@ export class UsersComponent {
               private _searchService: SearchService,
               private _swal: AlertService,
               private _catchError: CatchErrorService,
-              private _uploadImageService: UploadImageService
+              private _modalService: ImageModalService
   ){
     this.getUserList();
   }
 
   ngOnInit(): void {
-    this.imageUpdatedEvent = this._uploadImageService.imageUpdatedEvent
+    this.imageUpdatedEvent = this._modalService.imageUpdatedEvent
                                  .subscribe( () => this.getUserList());
   }
 
@@ -139,7 +139,7 @@ export class UsersComponent {
   }
 
   openModal(user: User){
-    this._uploadImageService.openModal(user, 'users');
+    this._modalService.openModal(user, 'users');
   }
 
 }

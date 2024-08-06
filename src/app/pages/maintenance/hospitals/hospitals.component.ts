@@ -5,7 +5,7 @@ import { AlertService } from 'src/app/services/alert.service';
 import { CatchErrorService } from 'src/app/services/catch-error.service';
 import { HospitalService } from 'src/app/services/hospital.service';
 import { SearchService } from 'src/app/services/search.service';
-import { UploadImageService } from 'src/app/services/upload-image.service';
+import { ImageModalService } from 'src/app/services/image-modal.service';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
 
@@ -30,13 +30,13 @@ export class HospitalsComponent {
               private _swal: AlertService,
               private _catchError: CatchErrorService,
               public userService: UserService,
-              private _uploadImageService: UploadImageService,
+              private _modalService: ImageModalService,
               private _searchService: SearchService
   ){}
 
   ngOnInit(): void {
     this.getHospitals();
-    this.imageUpdateEvent = this._uploadImageService.imageUpdatedEvent
+    this.imageUpdateEvent = this._modalService.imageUpdatedEvent
                                 .subscribe( () => this.getHospitals());
   }
   ngOnDestroy(): void {
@@ -84,7 +84,7 @@ export class HospitalsComponent {
 
   openModal(hospital: HospitalInterface): void{
     if(this.userService.user?.role === 'ADMIN_ROLE'){
-      this._uploadImageService.openModal(hospital, 'hospitals');
+      this._modalService.openModal(hospital, 'hospitals');
     }
     return;
   }

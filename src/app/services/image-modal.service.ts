@@ -8,7 +8,7 @@ import { CatchErrorService } from './catch-error.service';
 @Injectable({
   providedIn: 'root'
 })
-export class UploadImageService {
+export class ImageModalService {
 
   private _displayModal: boolean = false;
   public imageUpdatedEvent: EventEmitter<string> =  new EventEmitter<string>;
