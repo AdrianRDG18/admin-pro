@@ -25,7 +25,8 @@ export class GetImagePipe implements PipeTransform {
   }
 
   getImageFromAPI(image: string, type: 'users' | 'medics' | 'hospitals'){
-    return this._fileService.getImageAPI(image, type)
+    const profImage = (image === undefined || '') ? 'no-image' : image;
+    return this._fileService.getImageAPI(profImage, type)
     .pipe(
       map( resp => {
         return resp;
