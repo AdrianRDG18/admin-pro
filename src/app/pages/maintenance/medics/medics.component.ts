@@ -1,9 +1,12 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { MedicResponseInterface } from 'src/app/interfaces/medic-response.interface';
+import { Subscription } from 'rxjs';
+import { MedicInterface, MedicResponseInterface } from 'src/app/interfaces/medic-response.interface';
 import { AlertService } from 'src/app/services/alert.service';
 import { CatchErrorService } from 'src/app/services/catch-error.service';
+import { ImageModalService } from 'src/app/services/image-modal.service';
 import { MedicService } from 'src/app/services/medic.service';
 import { SearchService } from 'src/app/services/search.service';
+import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -18,13 +21,31 @@ export class MedicsComponent {
   public limit: number = 10;
   public loading: boolean = false;
   @ViewChild('medic_term') medic_term?: ElementRef;
+  private ImageUpdatedEvent: Subscription = new Subscription;
 
   constructor(private _medicService: MedicService,
               private _swal: AlertService,
               private _catchError: CatchErrorService,
-              private _searchService: SearchService
+              private _searchService: SearchService,
+              private _modalService: ImageModalService,
+              public _userSerice: UserService
   ){
     this.getMedics();
+  }
+
+  ngOnInit(): void {
+    this.ImageUpdatedEvent = this._modalService.imageUpdatedEvent
+                                 .subscribe( () => {
+                                  if(this.medic_term?.nativeElement.value === '' || undefined){
+                                    this.getMedics();
+                                  }else{
+                                    this.findMedicByTerm(this.medic_term?.nativeElement.value, 1);
+                                  }
+                                 });
+  }
+
+  ngOnDestroy(): void {
+    this.ImageUpdatedEvent.unsubscribe();
   }
 
   getMedics(page: number = 1){
@@ -75,4 +96,10 @@ export class MedicsComponent {
     }
   }
 
+  openModalToUploadImage(medic: MedicInterface){
+    if(this._userSerice.user?.role === 'ADMIN_ROLE'){
+      this._modalService.openModal(medic, 'medics');
+    }
+    return;
+  }
 }

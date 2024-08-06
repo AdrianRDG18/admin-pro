@@ -51,7 +51,8 @@
                             <tr *ngFor="let medic of response.docs; let i = index;">
                                 <td>{{i+1}}</td>
                                 <td>
-                                    <img class="image-table" [src]="medic | getImage: 'medics' | async" alt="">
+                                    <img class="image-table" [ngClass]="{'cursor-pointer': _userSerice.user?.role === 'ADMIN_ROLE'}"
+                                         [src]="medic | getImage: 'medics' | async" [alt]="medic.name" (click)="openModalToUploadImage(medic)">
                                 </td>
                                 <td>{{medic.name}}</td>
                                 <td>
