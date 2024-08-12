@@ -1,0 +1,54 @@
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Medic data</h4>
+                <h6 *ngIf="!creation" class="card-subtitle">You can modify the medic data</h6>
+                <h6 *ngIf="creation" class="card-subtitle">You can create a new medic</h6>
+                <form class="form-horizontal p-t-20" [formGroup]="medicForm" (ngSubmit)="saveMedic()">
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-3 control-label">Image</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <img *ngIf="!imagetoShow && medic" class="profile-image" [src]="medic | getImage: 'medics' | async" [alt]="medic.name">
+                                <img *ngIf="imagetoShow" class="profile-image" [src]="imagetoShow">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Select a new file to update the medic image</label>
+                        <input class="form-control cursor-pointer" type="file" (change)="setImageToUpdate($event)">
+                    </div>
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-3 control-label">Name*</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="ti-user"></i></div>
+                                <input type="text" class="form-control" id="name" formControlName="name" placeholder="Name">
+                            </div>
+                            <small *ngIf="fieldValidation('name')" class="text-danger">*The medic name is mandatory</small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="hospital" class="col-sm-3 control-label">Hospital*</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="ti-layout-column4"></i></div>
+                                <select class="form-control" id="hospital" formControlName="hospital">
+                                    <option value="">Select an option</option>
+                                    <option *ngFor="let hospital of hospitalsResponse?.docs" [value]="hospital._id">{{hospital.name}}</option>
+                                </select>
+                            </div>
+                            <small *ngIf="fieldValidation('hospital')" class="text-danger">*You have to select an option</small>
+                        </div>
+                    </div>
+                    <div class="form-group row m-b-0">
+                        <div class="offset-sm-3 col">
+                            <button type="submit" class="btn btn-success btn-block btn-m waves-effect waves-light">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,7 +1,7 @@
 import { HospitalInterface } from "./hospital-response.interface";
 
 export interface MedicResponseInterface{
-    docs: MedicInterface[],
+    docs: Medic[],
     totalPages: number,
     page: number,
     hasNextPage: boolean,
@@ -13,7 +13,7 @@ export interface MedicResponseInterface{
     totalDocs: number,
 }
 
-export interface MedicInterface{
+export interface Medic{
     _id: string,
     name: string,
     status: string,

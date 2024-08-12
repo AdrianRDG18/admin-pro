@@ -19,6 +19,12 @@
 
 .h100{height: 100%;}
 
+.btn-centered-end{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
 /* General /
 ****************************************************************************************
 */

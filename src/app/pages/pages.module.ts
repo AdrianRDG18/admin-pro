@@ -21,6 +21,7 @@ import { HospitalsComponent } from './maintenance/hospitals/hospitals.component'
 import { MedicsComponent } from './maintenance/medics/medics.component';
 // Pipes
 import { GetImagePipe } from '../pipes/get-image.pipe';
+import { MedicComponent } from './maintenance/medics/medic/medic.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { GetImagePipe } from '../pipes/get-image.pipe';
     UsersComponent,
     GetImagePipe,
     HospitalsComponent,
-    MedicsComponent
+    MedicsComponent,
+    MedicComponent
   ],
   exports: [
     DashboardComponent,

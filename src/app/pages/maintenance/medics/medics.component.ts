@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { MedicInterface, MedicResponseInterface } from 'src/app/interfaces/medic-response.interface';
+import { Medic, MedicResponseInterface } from 'src/app/interfaces/medic-response.interface';
 import { AlertService } from 'src/app/services/alert.service';
 import { CatchErrorService } from 'src/app/services/catch-error.service';
 import { ImageModalService } from 'src/app/services/image-modal.service';
@@ -55,7 +55,6 @@ export class MedicsComponent {
         .subscribe({
           next: (resp: MedicResponseInterface) => {
             this.response = resp;
-            console.log(resp.docs);
           }, error: (error) => {
             console.log(error);
             this._catchError.scaleError('Something went wrong on getMedics', error);
@@ -96,10 +95,34 @@ export class MedicsComponent {
     }
   }
 
-  openModalToUploadImage(medic: MedicInterface){
+  openModalToUploadImage(medic: Medic){
     if(this._userSerice.user?.role === 'ADMIN_ROLE'){
       this._modalService.openModal(medic, 'medics');
     }
     return;
   }
+
+  deleteMedic(medic: Medic){
+    this._swal.swalConfirm('Delete medic', `¿Are you sure to delete <strong>${medic.name}</strong>?`)
+        .then((resp: any) => {
+          if(resp.isConfirmed){
+            this._swal.swalProcessingRequest();
+            Swal.showLoading();
+            this._medicService.deleteMedic(medic._id)
+                .subscribe({
+                  next: () => {
+                    if(this.medic_term?.nativeElement.value === '' || undefined){
+                      this.getMedics();
+                    }else{
+                      this.findMedicByTerm(this.medic_term?.nativeElement.value)
+                    }
+                  }, error: (error) => {
+                    console.log(error);
+                    this._catchError.scaleError('Something went wrong on deleteMedic', error);
+                  }, complete: () => Swal.close()
+                });
+          }
+        });
+  }
+
 }
