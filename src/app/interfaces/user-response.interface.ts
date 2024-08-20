@@ -1,6 +1,6 @@
 import { User } from "../models/user.model";
 
-export interface ResponseInterface {
+export interface UserResponseInterface {
     docs: User[],
     totalPages: number,
     page: number,

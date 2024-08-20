@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ResponseInterface } from 'src/app/interfaces/response.interface';
+import { UserResponseInterface } from 'src/app/interfaces/user-response.interface';
 import { User } from 'src/app/models/user.model';
 import { AlertService } from 'src/app/services/alert.service';
 import { CatchErrorService } from 'src/app/services/catch-error.service';
@@ -17,7 +17,7 @@ import Swal from 'sweetalert2';
 })
 export class UsersComponent {
 
-  public response: ResponseInterface | undefined;
+  public response: UserResponseInterface | undefined;
   public limit : number = 10;
   public loading: boolean = false;
   @ViewChild('term_user') term: ElementRef | undefined; 
@@ -50,7 +50,7 @@ export class UsersComponent {
     Swal.showLoading();
     this._userService.getUsers(page, this.limit)
         .subscribe({
-          next: (resp: ResponseInterface) => {
+          next: (resp: UserResponseInterface) => {
             this.response = resp;
           }, error: (error) => {
             console.log(error);
@@ -84,7 +84,7 @@ export class UsersComponent {
       this.loading = true;
       this._searchService.searchByTerm('users', term, page, this.limit)
           .subscribe({
-            next: (resp: ResponseInterface) => {
+            next: (resp: UserResponseInterface) => {
               this.response = resp;
             }, error: (error) => {
               console.log(error);
