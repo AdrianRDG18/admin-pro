@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.development';
-import { ResponseInterface } from '../interfaces/response.interface';
 import { Observable, map } from 'rxjs';
 
 @Injectable({
@@ -17,7 +16,7 @@ export class SearchService {
     return { headers: { 'x-token': localStorage.getItem('token') || ''} };
   }
 
-  searchByTerm(collection: 'users' | 'medics' | 'hospitals', term: string, page: number, limit: number): Observable<ResponseInterface>{
+  searchByTerm(collection: 'users' | 'medics' | 'hospitals', term: string, page: number, limit: number): Observable<any>{
     const url = `${this.api_base_url}/search/${collection}/${term}?page=${page}&limit=${limit}`;
     return this._httpClient.get(url, this.headers)
                 .pipe(
@@ -25,6 +24,11 @@ export class SearchService {
                     return resp.data
                   })
                 );
+  }
+
+  searchAllByTerm(term: string): Observable<any>{
+    const url = `${this.api_base_url}/search/${term}`;
+    return this._httpClient.get(url, this.headers);
   }
 
 }

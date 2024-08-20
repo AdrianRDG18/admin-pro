@@ -15,6 +15,7 @@ import { UsersComponent } from './maintenance/users/users.component';
 import { MedicsComponent } from './maintenance/medics/medics.component';
 import { HospitalsComponent } from './maintenance/hospitals/hospitals.component';
 import { MedicComponent } from './maintenance/medics/medic/medic.component';
+import { SearchComponent } from './search/search.component';
 
 const routes: Routes = [
     { 
@@ -32,6 +33,7 @@ const routes: Routes = [
             { path: 'promises', component: PromisesComponent, data: { title: 'Promesas' } },
             { path: 'rxjs', component: RxjsComponent, data: { title: 'RxJs' } },
             { path: 'profile', component: ProfileComponent, data: { title: 'User profile'} },
+            { path: 'search/:term', component: SearchComponent, data: { title: 'Search by Term'}},
             // Maintenance
             { path: 'users', component: UsersComponent, data: { title: 'Users maintenance'}},
             { path: 'medics', component: MedicsComponent, data: { title: 'Medics maintenance'}},

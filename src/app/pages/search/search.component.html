@@ -1,0 +1,100 @@
+<div class="row">
+    <div class="col-lg-4 col-md-6">
+        <div *ngIf="users.length === 0" class="alert alert-info">
+            <h3 class="text-info"><i class="fa fa-exclamation-circle"></i> Users not found </h3> 
+            <p>We can't found users with: <strong>{{term}}</strong></p>
+        </div>
+        <div *ngIf="users.length > 0" class="card">
+            <div class="card-body">
+                <h4 class="card-title">Users</h4>
+                <h6 class="card-subtitle">Users found with: <strong>{{term}}</strong></h6>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Avatar</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let user of users; let i = index">
+                                <td>{{i+1}}</td>
+                                <td>
+                                    <img class="image-table" [src]="user | getImage: 'users' | async" [alt]="user.name">
+                                </td>
+                                <td>{{user.name}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-6">
+        <div *ngIf="medics.length === 0" class="alert alert-info">
+            <h3 class="text-info"><i class="fa fa-exclamation-circle"></i> Medics not found </h3> 
+            <p>We can't found medics with: <strong>{{term}}</strong></p>
+        </div>
+        <div *ngIf="medics.length > 0" class="card">
+            <div class="card-body">
+                <h4 class="card-title">Medics</h4>
+                <h6 class="card-subtitle">Medics found with: <strong>{{term}}</strong></h6>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Avatar</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let medic of medics; let i = index">
+                                <td>{{i+1}}</td>
+                                <td>
+                                    <img class="image-table" [src]="medic | getImage: 'medics' | async" [alt]="medic.name">
+                                </td>
+                                <td>
+                                    <a [routerLink]="['/dashboard/medic', medic._id]" style="color: black;">{{medic.name}}</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-6">
+        <div *ngIf="hospitals.length === 0" class="alert alert-info">
+            <h3 class="text-info"><i class="fa fa-exclamation-circle"></i> Hospitals not found </h3> 
+            <p>We can't found hospitals with: <strong>{{term}}</strong></p>
+        </div>
+        <div *ngIf="hospitals.length > 0" class="card">
+            <div class="card-body">
+                <h4 class="card-title">Hospitals</h4>
+                <h6 class="card-subtitle">Hospitals found with: <strong>{{term}}</strong></h6>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Image</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let hospital of hospitals; let i = index">
+                                <td>{{i+1}}</td>
+                                <td>
+                                    <img class="image-table" [src]="hospital | getImage: 'hospitals' | async" [alt]="hospital.name">
+                                </td>
+                                <td>{{hospital.name}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

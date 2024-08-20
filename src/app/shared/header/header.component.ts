@@ -65,4 +65,10 @@ export class HeaderComponent {
     });
   }
 
+  findByTerm(term: string){
+    if(term !== null || ''){
+      this._router.navigateByUrl(`/dashboard/search/${term}`);
+    }
+    return;
+  }
 }
