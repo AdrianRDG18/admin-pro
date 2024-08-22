@@ -10,21 +10,23 @@ export class SidebarService {
       title: 'Dashboard',
       icon: 'mdi mdi-gauge',
       submenu: [
-        { title: 'Main', url: '/' },
-        { title: 'Progressbar', url: 'progress' },
-        { title: 'Graphs', url: 'graph-1' },
-        { title: 'Promises', url: 'promises' },
-        { title: 'RXJS', url: 'rxjs' },
-      ]
+        { title: 'Main', url: '/', role_requested: 'USER_ROLE' },
+        { title: 'Progressbar', url: 'progress', role_requested: 'USER_ROLE' },
+        { title: 'Graphs', url: 'graph-1', role_requested: 'USER_ROLE' },
+        { title: 'Promises', url: 'promises', role_requested: 'USER_ROLE' },
+        { title: 'RXJS', url: 'rxjs', role_requested: 'ADMIN_ROLE' },
+      ],
+      role_requested: 'USER_ROLE'
     },
     {
       title: 'Maintenance',
       icon: 'mdi mdi-folder-lock-open',
       submenu: [
-        { title: 'Users', url: 'users' },
-        { title: 'Medics', url: 'medics' },
-        { title: 'Hospitals', url: 'hospitals' },
-      ]
+        { title: 'Users', url: 'users', role_requested: 'ADMIN_ROLE' },
+        { title: 'Medics', url: 'medics', role_requested: 'ADMIN_ROLE' },
+        { title: 'Hospitals', url: 'hospitals', role_requested: 'ADMIN_ROLE' },
+      ],
+      role_requested: 'ADMIN_ROLE'
     },
   ]
 

@@ -19,7 +19,7 @@ export class SidebarComponent {
 
   constructor(private _sidebarService: SidebarService,
               private _fileService: FileService,
-              private _userService: UserService,
+              public _userService: UserService,
               private _router: Router,
               private _swal: AlertService){
     // Instance of class(User)
