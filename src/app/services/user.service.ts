@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment.development';
+import { environment } from 'src/environments/environment';
 import { createUserFormInterface } from '../interfaces/create-user-form.interface';
 import { LoginFormInterface } from '../interfaces/login-form.interface';
 import { Observable, catchError, map, of, tap } from 'rxjs';

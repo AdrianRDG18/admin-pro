@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { environment } from 'src/environments/environment.development';
+import { environment } from 'src/environments/environment';
 import { Medic, MedicResponseInterface } from '../interfaces/medic-response.interface';
 import { HttpClient } from '@angular/common/http';
 
